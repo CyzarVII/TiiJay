@@ -5,40 +5,15 @@
     <meta charset="UTF-8" />
     <title>Jamal & Tiana</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- iOS / mobile top-bar theming -->
+    <meta name="theme-color" content="#05030a">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Great+Vibes&display=swap"
         rel="stylesheet">
+
     <style>
-        html {
-            scroll-behavior: smooth;
-            min-height: 100%;
-            background-color: #05030a;
-            /* hard black fallback for iPhone */
-        }
-
-        html,
-        body {
-            margin: 0;
-            padding: 0;
-            background: #05030a;
-            /* solid black base */
-            color: #f9f5ff;
-            height: 100%;
-            overflow-x: hidden;
-        }
-
-        body {
-            min-height: 100vh;
-            background-color: #05030a;
-            /* ensures no white shows through */
-            background-image: radial-gradient(circle at top, #1e1030 0, #05030a 45%, #020009 100%);
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            color: var(--text-main);
-            -webkit-font-smoothing: antialiased;
-            line-height: 1.6;
-        }
-
         :root {
             --bg-main: #05030a;
             --bg-card: #0b0714;
@@ -60,9 +35,28 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
+        html,
         body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            min-height: 100%;
+            background-color: #05030a !important;
+            /* solid black base behind everything */
+            color: #f9f5ff;
+            overflow-x: hidden;
+        }
+
+        /* iPhone notch safe area */
+        body {
+            padding-top: env(safe-area-inset-top);
             min-height: 100vh;
             font-family: "Inter", system-ui, sans-serif;
+            background-color: #05030a;
             background: radial-gradient(circle at top, #1e1030 0, #05030a 45%, #020009 100%);
             color: var(--text-main);
             -webkit-font-smoothing: antialiased;
@@ -574,6 +568,8 @@
             border: 1px solid rgba(168, 85, 247, 0.28);
             box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
             transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+            opacity: 0;
+            /* start hidden */
         }
 
         .gallery-item img {
@@ -593,6 +589,11 @@
 
         .gallery-item:hover img {
             transform: scale(1.06);
+        }
+
+        .gallery-item.is-visible {
+            opacity: 1;
+            animation: galleryFadeUp 0.6s ease-out forwards;
         }
 
         /* FOOTER -------------------------------------------------------- */
@@ -617,16 +618,6 @@
                 opacity: 1;
                 transform: translateY(0);
             }
-        }
-
-        .gallery-item {
-            opacity: 0;
-            /* start hidden */
-        }
-
-        .gallery-item.is-visible {
-            opacity: 1;
-            animation: galleryFadeUp 0.6s ease-out forwards;
         }
 
         /* LABEL FADE ANIMATION ----------------------------------------- */
@@ -675,8 +666,6 @@
     </style>
 </head>
 
-
-
 <body>
     <header>
         <nav class="nav">
@@ -701,8 +690,6 @@
             </div>
         </nav>
     </header>
-
-
 
     <div class="shell">
         <main>
@@ -731,7 +718,6 @@
 
                 <div class="hero-photo-card">
                     <div class="hero-photo-card-inner">
-                        <!-- Replace this with your main couple photo -->
                         <img src="images/us-main.jpg" alt="Jamal and Tiana">
                     </div>
                     <div class="hero-photo-caption">
@@ -828,7 +814,6 @@
                             Our official beginning. The day we stopped being just two people, and became Jamal &amp;
                             Tiana.
                         </div>
-
                     </div>
                     <div class="timeline-item">
                         <div class="timeline-date">24 • 11 • (every year)</div>
@@ -847,18 +832,13 @@
                     Some nights stay with you longer than others. These are a few of mine.
                 </p>
 
-                <!-- Cards go here (JS will fill) -->
                 <div id="moments-list" class="moments-grid"></div>
 
-                <!-- Controls to move between groups of 4 -->
                 <div class="moments-controls">
                     <button id="moments-prev" type="button">← Earlier moments</button>
                     <button id="moments-next" type="button">More moments →</button>
                 </div>
-
-
             </section>
-
 
             <!-- GALLERY GRID -->
             <section id="gallery">
@@ -868,18 +848,13 @@
                     Six photos each are memories that we've shared.
                 </p>
 
-                <!-- JS will fill these photos -->
                 <div class="gallery-grid"></div>
 
-                <!-- ⬇️ PLACE THE BUTTONS RIGHT HERE ⬇️ -->
                 <div class="moments-controls" style="margin-top:1.2rem;">
                     <button id="gallery-prev" type="button">← Previous photos</button>
                     <button id="gallery-next" type="button">More photos →</button>
                 </div>
-
             </section>
-
-
 
             <!-- POEM -->
             <section id="poem">
@@ -945,7 +920,7 @@
     <script>
         (function () {
             const slider = document.querySelector('.gallery-slider');
-            if (!slider) return;   // Do nothing if the slider is not on the page
+            if (!slider) return;
 
             const slides = Array.from(slider.querySelectorAll('.gallery-slide'));
             const total = slides.length;
@@ -973,28 +948,23 @@
                 if (captionEl) captionEl.textContent = caption;
             }
 
-            // Click events
             if (prevBtn) prevBtn.addEventListener('click', () => showSlide(currentIndex - 1));
             if (nextBtn) nextBtn.addEventListener('click', () => showSlide(currentIndex + 1));
 
-            // Keyboard events
             document.addEventListener('keydown', e => {
                 if (e.key === 'ArrowLeft') showSlide(currentIndex - 1);
                 if (e.key === 'ArrowRight') showSlide(currentIndex + 1);
             });
 
-            // Initial load
             showSlide(0);
         })();
     </script>
 
-
     <!-- 2) MOMENTS SECTION — DYNAMICALLY GENERATED CARDS -->
     <script>
         (function () {
-            const PAGE_SIZE = 4;  // 4 cards per “page”
+            const PAGE_SIZE = 4;
 
-            // 📝 All your memories live here
             const moments = [
                 {
                     label: "FIRST OFFICIAL DATE",
@@ -1036,7 +1006,6 @@ and it felt like the whole island went quiet for us. Whenever
 we go to the beach it always felt like that.
 `.trim()
                 },
-
                 {
                     label: "MUSIC FESTIVAL",
                     title: "PURE VIBES",
@@ -1047,7 +1016,6 @@ and pieces of Jennifer Hudson and just enjoyed the moments we shared
 with the videos and pictures we took. 
 `.trim()
                 },
-
                 {
                     label: "THE Night",
                     title: "My Story",
@@ -1066,14 +1034,7 @@ You really are an amazing woman for that.
                     text: `
  This will be updated.
 `.trim()
-                },
-
-                // ✨ Add more memories here whenever you want:
-                // {
-                //   label: "NEW CHAPTER",
-                //   title: "Some new moment",
-                //   text: "Your description here..."
-                // }
+                }
             ];
 
             const container = document.getElementById("moments-list");
@@ -1082,16 +1043,14 @@ You really are an amazing woman for that.
 
             if (!container || !prevBtn || !nextBtn) return;
 
-            let currentPage = 0; // 0 = first 4, 1 = next 4, etc.
+            let currentPage = 0;
 
             function renderPage() {
-                // Clear old cards
                 container.innerHTML = "";
 
                 const start = currentPage * PAGE_SIZE;
                 const end = Math.min(start + PAGE_SIZE, moments.length);
 
-                // Create only the cards for this “page”
                 for (let i = start; i < end; i++) {
                     const m = moments[i];
                     const card = document.createElement("div");
@@ -1104,12 +1063,10 @@ You really are an amazing woman for that.
                     container.appendChild(card);
                 }
 
-                // Update button states
                 prevBtn.disabled = currentPage === 0;
                 nextBtn.disabled = end >= moments.length;
             }
 
-            // Button handlers
             prevBtn.addEventListener("click", () => {
                 if (currentPage > 0) {
                     currentPage--;
@@ -1125,91 +1082,85 @@ You really are an amazing woman for that.
                 }
             });
 
-            // Initial render (shows first 4)
             renderPage();
         })();
     </script>
-   <script>
-    (function () {
-        const PAGE_SIZE = 6; // 6 photos per page
 
-        // 📸 All gallery images live here
-        const gallery = [
-            { src: "images/gallery-1.jpg", alt: "A moment I'll always smile at." },
-            { src: "images/gallery-2.jpg", alt: "You, looking perfect without trying." },
-            { src: "images/gallery-3.jpg", alt: "Us, in our own little world." },
-            { src: "images/gallery-4.jpg", alt: "The kind of memory I replay." },
-            { src: "images/gallery-5.jpg", alt: "Your smile. Enough said." },
-            { src: "images/gallery-6.jpg", alt: "The moment I wished time would slow down." },
+    <!-- 3) GALLERY PAGINATION -->
+    <script>
+        (function () {
+            const PAGE_SIZE = 6;
 
-            // add more here – every 6 will form a new “page”
-            { src: "images/gallery-7.jpg", alt: "The night we laughed more than we planned to." },
-            { src: "images/gallery-8.jpg", alt: "You, glowing without even trying." },
-            { src: "images/gallery-9.jpg", alt: "One of my favourite views of us." },
-            { src: "images/gallery-10.jpg", alt: "You, glowing without even trying." },
-            { src: "images/gallery-11.jpg", alt: "You, glowing without even trying." },
-            { src: "images/gallery-12.jpg", alt: "You, glowing without even trying." },
-           
-             { src: "images/gallery-13.jpg", alt: "You, glowing without even trying." },
-            { src: "images/gallery-14.jpg", alt: "You, glowing without even trying." }
+            const gallery = [
+                { src: "images/gallery-1.jpg", alt: "A moment I'll always smile at." },
+                { src: "images/gallery-2.jpg", alt: "You, looking perfect without trying." },
+                { src: "images/gallery-3.jpg", alt: "Us, in our own little world." },
+                { src: "images/gallery-4.jpg", alt: "The kind of memory I replay." },
+                { src: "images/gallery-5.jpg", alt: "Your smile. Enough said." },
+                { src: "images/gallery-6.jpg", alt: "The moment I wished time would slow down." },
 
-        ];
+                { src: "images/gallery-7.jpg", alt: "The night we laughed more than we planned to." },
+                { src: "images/gallery-8.jpg", alt: "You, glowing without even trying." },
+                { src: "images/gallery-9.jpg", alt: "One of my favourite views of us." },
+                { src: "images/gallery-10.jpg", alt: "You, glowing without even trying." },
+                { src: "images/gallery-11.jpg", alt: "You, glowing without even trying." },
+                { src: "images/gallery-12.jpg", alt: "You, glowing without even trying." },
 
-        const container = document.querySelector(".gallery-grid");
-        const prevBtn = document.getElementById("gallery-prev");
-        const nextBtn = document.getElementById("gallery-next");
+                { src: "images/gallery-13.jpg", alt: "You, glowing without even trying." },
+                { src: "images/gallery-14.jpg", alt: "You, glowing without even trying." }
+            ];
 
-        if (!container || !prevBtn || !nextBtn) return;
+            const container = document.querySelector(".gallery-grid");
+            const prevBtn = document.getElementById("gallery-prev");
+            const nextBtn = document.getElementById("gallery-next");
 
-        let currentPage = 0;
+            if (!container || !prevBtn || !nextBtn) return;
 
-        function renderPage() {
-            container.innerHTML = "";
+            let currentPage = 0;
 
-            const start = currentPage * PAGE_SIZE;
-            const end = Math.min(start + PAGE_SIZE, gallery.length);
+            function renderPage() {
+                container.innerHTML = "";
 
-            for (let i = start; i < end; i++) {
-                const item = gallery[i];
-                const div = document.createElement("div");
-                div.className = "gallery-item";
-                div.innerHTML = `<img src="${item.src}" alt="${item.alt}">`;
-                container.appendChild(div);
+                const start = currentPage * PAGE_SIZE;
+                const end = Math.min(start + PAGE_SIZE, gallery.length);
 
-                // 🔥 make it visible (triggers fade-in animation)
-                requestAnimationFrame(() => {
-                    div.classList.add("is-visible");
-                });
+                for (let i = start; i < end; i++) {
+                    const item = gallery[i];
+                    const div = document.createElement("div");
+                    div.className = "gallery-item";
+                    div.innerHTML = `<img src="${item.src}" alt="${item.alt}">`;
+                    container.appendChild(div);
+
+                    requestAnimationFrame(() => {
+                        div.classList.add("is-visible");
+                    });
+                }
+
+                const maxPage = Math.floor((gallery.length - 1) / PAGE_SIZE);
+                prevBtn.disabled = currentPage === 0;
+                nextBtn.disabled = currentPage >= maxPage;
             }
 
-            const maxPage = Math.floor((gallery.length - 1) / PAGE_SIZE);
-            prevBtn.disabled = currentPage === 0;
-            nextBtn.disabled = currentPage >= maxPage;
-        }
+            prevBtn.addEventListener("click", () => {
+                if (currentPage > 0) {
+                    currentPage--;
+                    renderPage();
+                }
+            });
 
-        prevBtn.addEventListener("click", () => {
-            if (currentPage > 0) {
-                currentPage--;
-                renderPage();
-            }
-        });
+            nextBtn.addEventListener("click", () => {
+                const maxPage = Math.floor((gallery.length - 1) / PAGE_SIZE);
+                if (currentPage < maxPage) {
+                    currentPage++;
+                    renderPage();
+                }
+            });
 
-        nextBtn.addEventListener("click", () => {
-            const maxPage = Math.floor((gallery.length - 1) / PAGE_SIZE);
-            if (currentPage < maxPage) {
-                currentPage++;
-                renderPage();
-            }
-        });
+            renderPage();
+        })();
+    </script>
 
-        // initial load
-        renderPage();
-    })();
-</script>
-
-
-
-
+    <!-- 4) MOBILE NAV TOGGLE -->
     <script>
         (function () {
             const nav = document.querySelector('.nav');
@@ -1223,34 +1174,29 @@ You really are an amazing woman for that.
                 navToggle.setAttribute('aria-expanded', 'false');
             };
 
-            /* ---------- MOBILE NAV TOGGLE ---------- */
             navToggle.addEventListener('click', () => {
                 const isOpen = nav.classList.toggle('nav-open');
                 navToggle.setAttribute('aria-expanded', String(isOpen));
             });
 
-            /* ---------- SMOOTH SCROLL + CLOSE NAV ---------- */
             navLinksWrapper.querySelectorAll('a[href^="#"]').forEach(link => {
                 link.addEventListener('click', function (e) {
                     const targetId = this.getAttribute('href').slice(1);
                     const targetEl = document.getElementById(targetId);
                     if (!targetEl) return;
 
-                    e.preventDefault(); // stop the instant jump
+                    e.preventDefault();
 
-                    // Use scroll-margin-top on sections + smooth scroll
                     targetEl.scrollIntoView({
                         behavior: 'smooth',
                         block: 'start'
                     });
 
-                    // Close mobile nav after clicking
                     closeNav();
                 });
             });
         })();
     </script>
-
 
 </body>
 
