@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Jamal & Tiana</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Great+Vibes&display=swap"
+        rel="stylesheet">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        :root {
+            --bg-main: #05030a;
+            --bg-card: #0b0714;
+            --accent: #a855f7;
+            --accent-soft: #c084fc;
+            --text-main: #f9f5ff;
+            --text-muted: #a1a1b5;
+            --border-subtle: rgba(148, 163, 184, 0.25);
+            --radius-lg: 18px;
+            --radius-pill: 999px;
+            --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.55);
+        }
+
+        /* RESET / BASE -------------------------------------------------- */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: radial-gradient(circle at top, #1e1030 0, #05030a 45%, #020009 100%);
+            color: var(--text-main);
+            -webkit-font-smoothing: antialiased;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .shell {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 1.5rem 1.5rem 3rem;
+        }
+
+        main {
+            padding-top: 1.5rem;
+        }
+
+        section {
+            margin: 2.8rem 0;
+            scroll-margin-top: 90px;
+        }
+
+        /* HEADER / NAV -------------------------------------------------- */
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            backdrop-filter: blur(14px);
+            background: linear-gradient(to bottom, rgba(5, 3, 10, 0.95), rgba(5, 3, 10, 0.78));
+            border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+        }
+
+        /* --- NAVIGATION BASE --- */
+
+        .nav {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .nav-title {
+            font-size: 0.9rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.6rem;
+        }
+
+        .nav-links a {
+            padding: 0.3rem 0.8rem;
+            border-radius: var(--radius-pill);
+            transition: 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .nav-links a:hover {
+            background: rgba(168, 85, 247, 0.1);
+            border-color: rgba(168, 85, 247, 0.4);
+        }
+
+        /* --- HAMBURGER BUTTON --- */
+
+        .nav-toggle {
+            display: none;
+            /* hidden on desktop */
+            width: 34px;
+            height: 34px;
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, 0.6);
+            background: rgba(15, 23, 42, 0.9);
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 4px;
+            padding: 0;
+            cursor: pointer;
+        }
+
+        .nav-toggle span {
+            width: 16px;
+            height: 2px;
+            border-radius: 999px;
+            background: #e5e7f8;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        /* --- MOBILE LAYOUT --- */
+
+        @media (max-width: 720px) {
+
+            .nav {
+                flex-direction: column;
+                align-items: stretch;
+                padding-inline: 1.1rem;
+            }
+
+            .nav-left {
+                justify-content: space-between;
+            }
+
+            .nav-toggle {
+                display: inline-flex;
+                /* show hamburger on mobile */
+            }
+
+            .nav-links {
+                width: 100%;
+                flex-direction: column;
+                gap: 0.4rem;
+                margin-top: 0.5rem;
+
+                /* collapsed state */
+                max-height: 0;
+                overflow: hidden;
+                opacity: 0;
+                transform: translateY(-6px);
+                transition:
+                    max-height 0.25s ease,
+                    opacity 0.2s ease,
+                    transform 0.2s ease;
+            }
+
+            /* Expanded menu when nav has .nav-open */
+            .nav.nav-open .nav-links {
+                max-height: 260px;
+                /* enough for all links */
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            /* Small visual tweak: highlight active state of hamburger */
+            .nav.nav-open .nav-toggle span:nth-child(1) {
+                transform: translateY(3px) rotate(45deg);
+            }
+
+            .nav.nav-open .nav-toggle span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .nav.nav-open .nav-toggle span:nth-child(3) {
+                transform: translateY(-3px) rotate(-45deg);
+            }
+        }
+
+
+        /* HERO ---------------------------------------------------------- */
+
+        .hero {
+            display: grid;
+            grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .hero-left {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.3rem 1rem;
+            border-radius: var(--radius-pill);
+            border: 1px solid rgba(148, 163, 184, 0.35);
+            background: radial-gradient(circle at top left, rgba(168, 85, 247, 0.14), rgba(15, 23, 42, 0.96));
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .pill-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            background: var(--accent);
+            box-shadow: 0 0 12px rgba(168, 85, 247, 0.9);
+        }
+
+        .names-script {
+            font-family: "Great Vibes", cursive;
+            font-size: clamp(2.6rem, 4vw, 3.2rem);
+            font-weight: 400;
+            color: #fdf4ff;
+        }
+
+        .hero-sub {
+            font-size: 0.96rem;
+            color: var(--text-muted);
+            max-width: 32rem;
+        }
+
+        .hero-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.55rem;
+            margin-top: 0.2rem;
+            font-size: 0.8rem;
+        }
+
+        .hero-meta span {
+            padding: 0.22rem 0.6rem;
+            border-radius: var(--radius-pill);
+            border: 1px solid rgba(148, 163, 184, 0.35);
+            background: rgba(15, 23, 42, 0.85);
+        }
+
+        /* HERO PHOTO CARD ----------------------------------------------- */
+
+        .hero-photo-card {
+            background: radial-gradient(circle at top, rgba(88, 28, 135, 0.6), rgba(15, 23, 42, 0.96));
+            border-radius: 22px;
+            padding: 0.8rem;
+            border: 1px solid rgba(148, 163, 184, 0.3);
+            box-shadow: var(--shadow-soft);
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .hero-photo-card-inner {
+            border-radius: 16px;
+            overflow: hidden;
+            aspect-ratio: 4 / 5;
+            border: 1px solid rgba(15, 23, 42, 0.95);
+            background: #020617;
+        }
+
+        .hero-photo-card-inner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .hero-photo-caption {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .hero-photo-caption span.label {
+            text-transform: uppercase;
+            font-size: 0.68rem;
+            letter-spacing: 0.12em;
+            color: #e9d5ff;
+        }
+
+        /* SECTION HEADINGS ---------------------------------------------- */
+
+        .section-label,
+        .moment-label,
+        .timeline-date {
+            font-size: 0.75rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--accent-soft);
+            margin-bottom: 0.4rem;
+            font-weight: 500;
+            opacity: 0;
+            transform: translateY(6px);
+            animation: labelFade 0.8s ease-out forwards;
+        }
+
+        .moment-label,
+        .timeline-date {
+            animation-delay: 0.1s;
+        }
+
+        .section-label:hover,
+        .moment-label:hover,
+        .timeline-date:hover {
+            text-shadow: 0 0 6px rgba(168, 85, 247, 0.65);
+            transform: translateY(0) scale(1.04);
+            transition: all 0.25s ease;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            margin-bottom: 0.55rem;
+        }
+
+        .section-sub {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            max-width: 32rem;
+            margin-bottom: 1.4rem;
+        }
+
+        /* CARD LAYOUT --------------------------------------------------- */
+
+        .card-row {
+            display: grid;
+            grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+            gap: 1.6rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 1.3rem;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .card h3 {
+            font-size: 1.05rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .card p+p {
+            margin-top: 0.7rem;
+        }
+
+        .quote {
+            border-left: 2px solid var(--accent);
+            padding-left: 0.75rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 0.85rem;
+            font-style: italic;
+        }
+
+        /* BIRTHDAY SECTION ---------------------------------------------- */
+
+        .birthday-card {
+            border-radius: var(--radius-lg);
+            padding: 1.4rem 1.5rem;
+            border: 1px solid rgba(168, 85, 247, 0.6);
+            background:
+                radial-gradient(circle at top left, rgba(168, 85, 247, 0.28), transparent 60%),
+                radial-gradient(circle at bottom right, rgba(56, 189, 248, 0.12), transparent 55%),
+                rgba(10, 6, 20, 0.96);
+        }
+
+        .birthday-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            font-size: 0.78rem;
+            color: #e9d5ff;
+            margin-bottom: 0.6rem;
+        }
+
+        .birthday-tag .icon {
+            font-size: 0.95rem;
+        }
+
+        .birthday-title {
+            font-family: "Great Vibes", cursive;
+            font-size: 2rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .birthday-date {
+            font-size: 0.86rem;
+            color: var(--text-muted);
+            margin-bottom: 0.9rem;
+        }
+
+        /* POEM ---------------------------------------------------------- */
+
+        .poem-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 1.4rem 1.5rem;
+            border: 1px solid rgba(148, 163, 184, 0.5);
+        }
+
+        .poem-title {
+            font-size: 1.05rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .poem-body {
+            font-size: 0.93rem;
+            white-space: pre-line;
+            color: #e5e7f8;
+        }
+
+        .poem-sign {
+            margin-top: 1rem;
+            font-size: 0.86rem;
+            color: var(--text-muted);
+        }
+
+        /* MOMENTS ------------------------------------------------------- */
+
+        .moments-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1.2rem;
+        }
+
+        .moment-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 1rem 1.05rem;
+            border: 1px solid var(--border-subtle);
+            font-size: 0.9rem;
+        }
+
+        .moment-title {
+            font-size: 0.98rem;
+            color: #e9d5ff;
+            margin-bottom: 0.35rem;
+        }
+
+        .moments-controls {
+            margin-top: 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            gap: 0.75rem;
+        }
+
+        .moments-controls button {
+            flex: 1;
+            padding: 0.55rem 0.9rem;
+            border-radius: 999px;
+            border: 1px solid rgba(168, 85, 247, 0.6);
+            background: rgba(15, 23, 42, 0.9);
+            color: #f9f5ff;
+            font-size: 0.8rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.15s ease, border-color 0.2s ease, opacity 0.2s ease;
+        }
+
+        .moments-controls button:hover:not(:disabled) {
+            background: rgba(168, 85, 247, 0.2);
+            border-color: rgba(168, 85, 247, 0.9);
+            transform: translateY(-1px);
+        }
+
+        .moments-controls button:disabled {
+            opacity: 0.35;
+            cursor: default;
+            transform: none;
+        }
+
+        /* TIMELINE ------------------------------------------------------ */
+
+        .timeline {
+            margin-top: 1.5rem;
+            border-top: 1px dashed rgba(148, 163, 184, 0.45);
+            padding-top: 1rem;
+            display: grid;
+            gap: 0.75rem;
+            font-size: 0.86rem;
+        }
+
+        .timeline-item {
+            display: grid;
+            grid-template-columns: auto minmax(0, 1fr);
+            gap: 0.75rem;
+            align-items: baseline;
+        }
+
+        .timeline-date {
+            font-weight: 500;
+            font-size: 0.8rem;
+            white-space: nowrap;
+        }
+
+        .timeline-text {
+            color: var(--text-muted);
+        }
+
+        /* GALLERY – RESPONSIVE GRID ------------------------------------ */
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1.4rem;
+            margin-top: 1.8rem;
+            padding: 0.5rem;
+        }
+
+        .gallery-item {
+            border-radius: 14px;
+            overflow: hidden;
+            background: #0d0b15;
+            border: 1px solid rgba(168, 85, 247, 0.28);
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.03);
+            border-color: rgba(168, 85, 247, 0.6);
+            box-shadow: 0 18px 40px rgba(168, 85, 247, 0.22);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.06);
+        }
+
+        /* FOOTER -------------------------------------------------------- */
+
+        footer {
+            border-top: 1px solid rgba(148, 163, 184, 0.25);
+            margin-top: 2.6rem;
+            padding-top: 1.5rem;
+            font-size: 0.78rem;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        /* LABEL FADE ANIMATION ----------------------------------------- */
+
+        @keyframes labelFade {
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* RESPONSIVE ---------------------------------------------------- */
+
+        @media (max-width: 780px) {
+            .shell {
+                padding: 1.3rem 1.1rem 3rem;
+            }
+
+            .nav {
+                padding-inline: 1.1rem;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .hero,
+            .card-row,
+            .moments-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                gap: 1.8rem;
+            }
+
+            .hero-photo-card {
+                max-width: 320px;
+                margin: 0 auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+
+
+
+<body>
+    <header>
+        <nav class="nav">
+            <div class="nav-left">
+                <div class="nav-title">Jamal &amp; Tiana • Since Jan 06, 2025</div>
+
+                <!-- Hamburger button (shows only on mobile) -->
+                <button class="nav-toggle" type="button" aria-label="Toggle navigation">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+
+            <div class="nav-links">
+                <a href="#us">Us</a>
+                <a href="#birthday">Birthday</a>
+                <a href="#story">Story</a>
+                <a href="#moments">Moments</a>
+                <a href="#gallery">Gallery</a>
+                <a href="#poem">Poem</a>
+            </div>
+        </nav>
+    </header>
+
+
+    <div class="shell">
+        <main>
+            <!-- HERO / US -->
+            <section id="us" class="hero">
+                <div class="hero-left">
+                    <div class="pill">
+                        <span class="pill-dot"></span>
+                        <span>Just Jamal &amp; Tiana • A private little love page</span>
+                    </div>
+
+                    <h1 class="names-script">Jamal &amp; Tiana</h1>
+
+                    <p class="hero-sub">
+                        This page is just for us — a quiet corner of the internet where our love lives in words and
+                        memories.
+                        Jamal and Tiana. Two hearts, one journey, written in black and purple light.
+                    </p>
+
+                    <div class="hero-meta">
+                        <span>Day 1: January 06, 2025</span>
+                        <span>Tiana’s birthday: November 24</span>
+                        <span>Indian Summer • Music Fest • Us</span>
+                    </div>
+                </div>
+
+                <div class="hero-photo-card">
+                    <div class="hero-photo-card-inner">
+                        <!-- Replace this with your main couple photo -->
+                        <img src="images/us-main.jpg" alt="Jamal and Tiana">
+                    </div>
+                    <div class="hero-photo-caption">
+                        <span>One moment out of many</span>
+                        <span class="label">You &amp; Me • Always</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- BIRTHDAY MESSAGE -->
+            <section id="birthday">
+                <div class="section-label">For your birthday</div>
+                <h2 class="section-title">Happy Birthday, Tiana 🎂💜</h2>
+                <p class="section-sub">
+                    A simple page, a simple design — but every word here is full of you.
+                </p>
+
+                <div class="birthday-card">
+                    <div class="birthday-tag">
+                        <span class="icon">✨</span>
+                        <span>24th November • Your day, my favourite day</span>
+                    </div>
+
+                    <div class="birthday-title">To my birthday girl, Tiana</div>
+                    <div class="birthday-date">24th November</div>
+
+                    <p>
+                        Tiana, today isn’t just a date on a calendar — it’s the day the world was gifted you.
+                        I’m grateful that out of all the places your life could have led you, it crossed paths with
+                        mine.
+                    </p>
+                    <p style="margin-top:0.8rem;">
+                        On your birthday, I pray that your heart stays soft, your smile stays bright,
+                        and your dreams keep unfolding bigger than you imagined. You deserve peace,
+                        joy, and a love that makes you feel safe — and every day, I’m trying to be that for you.
+                    </p>
+                    <p style="margin-top:0.8rem;">
+                        Thank you for letting me call you mine. Thank you for being my favourite message,
+                        favourite call, favourite face, and favourite person.
+                    </p>
+                    <p style="margin-top:0.8rem;">
+                        Happy birthday, Tiana. I love you — today, and every day after this.
+                    </p>
+                </div>
+            </section>
+
+            <!-- OUR STORY -->
+            <section id="story">
+                <div class="section-label">Our story</div>
+                <h2 class="section-title">How it started &amp; how it’s going</h2>
+                <p class="section-sub">
+                    It didn’t just “happen”. It unfolded — gently, beautifully, and exactly when it was meant to.
+                </p>
+
+                <div class="card-row">
+                    <div class="card">
+                        <h3>January 06, 2025 — the start of “us”</h3>
+                        <p>
+                            We didn’t just start dating; we chose each other. January 06, 2025 became
+                            more than a date — it became the moment Jamal &amp; Tiana became a real story.
+                        </p>
+                        <p>
+                            From the first real conversations, there was something different about you, Tiana.
+                            The way you talk, the way you see the world, the way you carry yourself — it all felt
+                            like a quiet answer to things I didn’t know how to ask for.
+                        </p>
+                        <p class="quote">
+                            “Some people arrive in your life like a soft song —
+                            you don’t realise when it started, but suddenly you can’t imagine silence without it.”
+                        </p>
+                    </div>
+
+                    <div class="card">
+                        <h3>Why my heart chose you</h3>
+                        <p>
+                            I love you because you make me better without trying to change me.
+                            You give me peace just by being there. With you, even the quiet moments feel full.
+                        </p>
+                        <p>
+                            I love your softness and your strength, the way you laugh and the way you think,
+                            the way your presence calms my mind. With you, I feel seen, understood, and held
+                            in a way I can’t fully explain — and maybe that’s the beauty of it.
+                        </p>
+                        <p class="quote">
+                            “I don’t need perfect days. I just need them with you.”
+                        </p>
+                    </div>
+                </div>
+
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-date">06 • 01 • 2025</div>
+                        <div class="timeline-text">
+                            Our official beginning. The day we stopped being just two people, and became Jamal &amp;
+                            Tiana.
+                        </div>
+
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">24 • 11 • (every year)</div>
+                        <div class="timeline-text">
+                            Your birthday — the day the world got you, and the day I’m always extra grateful you exist.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- MOMENTS -->
+            <!-- MOMENTS -->
+            <section id="moments">
+                <div class="section-label">Moments I replay</div>
+                <h2 class="section-title">Indian Summer, Music Fest &amp; many memories onwards</h2>
+                <p class="section-sub">
+                    Some nights stay with you longer than others. These are a few of mine.
+                </p>
+
+                <!-- Cards go here (JS will fill) -->
+                <div id="moments-list" class="moments-grid"></div>
+
+                <!-- Controls to move between groups of 4 -->
+                <div class="moments-controls">
+                    <button id="moments-prev" type="button">← Earlier moments</button>
+                    <button id="moments-next" type="button">More moments →</button>
+                </div>
+            </section>
+
+
+            <!-- GALLERY SLIDER -->
+            <section id="gallery">
+                <div class="section-label">Photos</div>
+                <h2 class="section-title">Our Moments in Frames</h2>
+                <p class="section-sub">
+                    Six simple photos — six memories that you have and those of us.
+                </p>
+
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <img src="images/gallery-1.jpg" alt="A moment I'll always smile at.">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="images/gallery-2.jpg" alt="You, looking perfect without trying.">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="images/gallery-3.jpg" alt="Us, in our own little world.">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="images/gallery-4.jpg" alt="The kind of memory I replay.">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="images/gallery-5.jpg" alt="Your smile. Enough said.">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="images/gallery-6.jpg" alt="The moment I wished time would slow down.">
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- POEM -->
+            <section id="poem">
+                <div class="section-label">For you</div>
+                <h2 class="section-title">A poem about us</h2>
+                <p class="section-sub">
+                    Black and purple, quiet and soft — a small poem from my heart to yours.
+                </p>
+
+                <div class="poem-card">
+                    <div class="poem-title">“In the quiet, it’s you”</div>
+                    <div class="poem-body">
+                        In a world that moves too quickly,
+                        you walk in at your own pace,
+                        and somehow, Tiana,
+                        my heart learns how to breathe slower
+                        whenever you are near.
+
+                        You are the calm between my thoughts,
+                        the warmth inside my chest,
+                        the soft “it’s okay” I feel
+                        even when no one says the words out loud.
+
+                        With you,
+                        ordinary moments become stories,
+                        car rides feel like scenes,
+                        and simple days feel like reasons
+                        to be grateful I woke up again.
+
+                        If love is a language,
+                        yours is spoken in gentle looks,
+                        in shared jokes,
+                        in the way you listen
+                        and love without needing a stage.
+
+                        And if I get to spend
+                        my tomorrows learning you,
+                        your moods, your dreams, your light,
+                        then every day from here on out
+                        will already be better
+                        than anything I imagined.
+
+                        Because in the quiet,
+                        when the noise is gone
+                        and the world feels small,
+                        it’s still you, Tiana,
+                        it’s always you.
+                    </div>
+                    <div class="poem-sign">
+                        — Jamal
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            Made in black &amp; purple, for Tiana, from Jamal.
+            <span style="display:block; margin-top:0.3rem;">No audience. No likes. Just us. 💜</span>
+        </footer>
+    </div>
+    <div id="moments-list" class="moments-grid"></div>
+    <script>
+        /* ============================================================
+           1) GALLERY SLIDER (SAFE, OPTIONAL — ONLY RUNS IF IT EXISTS)
+           ============================================================ */
+        (function () {
+            const slider = document.querySelector('.gallery-slider');
+            if (!slider) return;   // Do nothing if the slider is not on the page
+
+            const slides = Array.from(slider.querySelectorAll('.gallery-slide'));
+            const total = slides.length;
+
+            const prevBtn = slider.querySelector('.gallery-arrow-left');
+            const nextBtn = slider.querySelector('.gallery-arrow-right');
+
+            const counterEl = document.getElementById('gallery-counter');
+            const captionEl = document.getElementById('gallery-caption');
+
+            let currentIndex = 0;
+
+            function showSlide(index) {
+                if (!slides.length) return;
+
+                currentIndex = (index + total) % total;
+
+                slides.forEach((slide, i) => {
+                    slide.classList.toggle('active', i === currentIndex);
+                });
+
+                const caption = slides[currentIndex].getAttribute('data-caption') || "";
+
+                if (counterEl) counterEl.textContent = `${currentIndex + 1} / ${total}`;
+                if (captionEl) captionEl.textContent = caption;
+            }
+
+            // Click events
+            if (prevBtn) prevBtn.addEventListener('click', () => showSlide(currentIndex - 1));
+            if (nextBtn) nextBtn.addEventListener('click', () => showSlide(currentIndex + 1));
+
+            // Keyboard events
+            document.addEventListener('keydown', e => {
+                if (e.key === 'ArrowLeft') showSlide(currentIndex - 1);
+                if (e.key === 'ArrowRight') showSlide(currentIndex + 1);
+            });
+
+            // Initial load
+            showSlide(0);
+        })();
+    </script>
+
+
+    <script>
+        /* ============================================================
+           2) MOMENTS SECTION — DYNAMICALLY GENERATED CARDS
+           ============================================================ */
+        (function () {
+            const PAGE_SIZE = 4;  // 4 cards per “page”
+
+            // 📝 All your memories live here
+            const moments = [
+                {
+                    label: "FIRST OFFICIAL DATE",
+                    title: "Indian Summer",
+                    text: `
+Our first official date at Indian Summer wasn’t just about
+the food or the place — it was about you, across from me,
+and the feeling that this was the start of something real.
+The way you talked, laughed, and looked at me made
+everything else fade into the background.
+`.trim()
+                },
+                {
+                    label: "LOUD WORLD, QUIET HEARTS",
+                    title: "Music Fest",
+                    text: `
+Music Fest was noise and lights and energy — but somehow
+it still felt like our own little bubble. In the middle of
+the crowd, it was just us, sharing looks, jokes, and
+memories I’ll keep replaying in my head whenever I miss you.
+`.trim()
+                },
+                {
+                    label: "SOFT SUNDAYS",
+                    title: "Movie Nights",
+                    text: `
+Sure you're not all too heavy on horrow movies, but we sat and
+watched scary movie 1 and 2 just for the laughs, well more so me.
+You felt disgusted but you still laughed a few times on the other stuff.
+I appreciated that you stayed for that.
+`.trim()
+                },
+                {
+                    label: "SUNSET & SALT",
+                    title: "Beach Day",
+                    text: `
+The evenings when the sky went gold and purple,
+and it felt like the whole island went quiet for us. Whenever
+we go to the beach it always felt like that.
+`.trim()
+                },
+
+                {
+                    label: "MUSIC FESTIVAL",
+                    title: "PURE VIBES",
+                    text: `
+The Thursday night was amazing for myself, but I felt nothing better
+than the Saturday when we were singing along with Arya Stark, bits 
+and pieces of Jennifer Hudson and just enjoyed the moments we shared
+with the videos and pictures we took. 
+`.trim()
+                },
+
+                {
+                    label: "THE Night",
+                    title: "My Story",
+                    text: `
+The night you told me it's okay I did the best I can. That made me 
+lower my guard around you. During the moment of me telling you my
+story, you sat there and listened. You did not overspeak, you didn't
+cut in, you sat and listened. You understood everything and the 
+qualities you showed that night made me understand that, you are worth it.
+You really are an amazing woman for that. 
+`.trim()
+                },
+                {
+                    label: "Catamarang",
+                    title: "YOUR BIRTHDAY",
+                    text: `
+ This will be updated.
+`.trim()
+                },
+
+                // ✨ Add more memories here whenever you want:
+                // {
+                //   label: "NEW CHAPTER",
+                //   title: "Some new moment",
+                //   text: "Your description here..."
+                // }
+            ];
+
+            const container = document.getElementById("moments-list");
+            const prevBtn = document.getElementById("moments-prev");
+            const nextBtn = document.getElementById("moments-next");
+
+            if (!container || !prevBtn || !nextBtn) return;
+
+            let currentPage = 0; // 0 = first 4, 1 = next 4, etc.
+
+            function renderPage() {
+                // Clear old cards
+                container.innerHTML = "";
+
+                const start = currentPage * PAGE_SIZE;
+                const end = Math.min(start + PAGE_SIZE, moments.length);
+
+                // Create only the cards for this “page”
+                for (let i = start; i < end; i++) {
+                    const m = moments[i];
+                    const card = document.createElement("div");
+                    card.className = "moment-card";
+                    card.innerHTML = `
+                <div class="moment-label">${m.label}</div>
+                <div class="moment-title">${m.title}</div>
+                <p>${m.text}</p>
+            `;
+                    container.appendChild(card);
+                }
+
+                // Update button states
+                prevBtn.disabled = currentPage === 0;
+                nextBtn.disabled = end >= moments.length;
+            }
+
+            // Button handlers
+            prevBtn.addEventListener("click", () => {
+                if (currentPage > 0) {
+                    currentPage--;
+                    renderPage();
+                }
+            });
+
+            nextBtn.addEventListener("click", () => {
+                const maxPage = Math.floor((moments.length - 1) / PAGE_SIZE);
+                if (currentPage < maxPage) {
+                    currentPage++;
+                    renderPage();
+                }
+            });
+
+            // Initial render (shows first 4)
+            renderPage();
+
+            // ⭐ When you add more moments to the array above:
+            // - They immediately become part of the "hidden database"
+            // - User can click “More moments →” to see them,
+            //   always in groups of 4.
+        })();
+    </script>
+
+
+    <script>
+        /* ============================================================
+           3) SMOOTH SCROLL FOR NAV BUTTONS
+           ============================================================ */
+        (function () {
+            document.querySelectorAll('a[href^="#"]').forEach(link => {
+                link.addEventListener('click', function (e) {
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (!target) return;
+
+                    e.preventDefault();
+
+                    window.scrollTo({
+                        top: target.offsetTop - 60, // adjust for header height
+                        behavior: "smooth"
+                    });
+                });
+            });
+        })();
+    </script>
+
+
+
+
+</body>
+
+</html>
