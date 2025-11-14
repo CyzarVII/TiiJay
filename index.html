@@ -6,13 +6,38 @@
     <title>Jamal & Tiana</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Great+Vibes&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Great+Vibes&display=swap"
         rel="stylesheet">
     <style>
         html {
             scroll-behavior: smooth;
+            min-height: 100%;
+            background-color: #05030a;
+            /* hard black fallback for iPhone */
         }
 
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            background: #05030a;
+            /* solid black base */
+            color: #f9f5ff;
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            min-height: 100vh;
+            background-color: #05030a;
+            /* ensures no white shows through */
+            background-image: radial-gradient(circle at top, #1e1030 0, #05030a 45%, #020009 100%);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: var(--text-main);
+            -webkit-font-smoothing: antialiased;
+            line-height: 1.6;
+        }
 
         :root {
             --bg-main: #05030a;
@@ -37,11 +62,13 @@
 
         body {
             min-height: 100vh;
-            font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            font-family: "Inter", system-ui, sans-serif;
             background: radial-gradient(circle at top, #1e1030 0, #05030a 45%, #020009 100%);
             color: var(--text-main);
             -webkit-font-smoothing: antialiased;
             line-height: 1.6;
+            overflow-x: hidden;
+            /* stops sideways scroll / white edge */
         }
 
         a {
@@ -61,7 +88,8 @@
 
         section {
             margin: 2.8rem 0;
-            scroll-margin-top: 90px;
+            scroll-margin-top: 80px;
+            /* offset for sticky header */
         }
 
         /* HEADER / NAV -------------------------------------------------- */
@@ -578,6 +606,29 @@
             color: var(--text-muted);
         }
 
+        /* Fade-in animation for gallery items */
+        @keyframes galleryFadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .gallery-item {
+            opacity: 0;
+            /* start hidden */
+        }
+
+        .gallery-item.is-visible {
+            opacity: 1;
+            animation: galleryFadeUp 0.6s ease-out forwards;
+        }
+
         /* LABEL FADE ANIMATION ----------------------------------------- */
 
         @keyframes labelFade {
@@ -597,12 +648,6 @@
         @media (max-width: 780px) {
             .shell {
                 padding: 1.3rem 1.1rem 3rem;
-            }
-
-            .nav {
-                padding-inline: 1.1rem;
-                flex-direction: column;
-                align-items: flex-start;
             }
 
             .hero,
@@ -636,10 +681,10 @@
     <header>
         <nav class="nav">
             <div class="nav-left">
-                <div class="nav-title">Jamal &amp; Tiana • Since Jan 06, 2025</div>
+                <div class="nav-title">JAMAL &amp; TIANA • SINCE JAN 06, 2025</div>
 
-                <!-- Hamburger button (shows only on mobile) -->
-                <button class="nav-toggle" type="button" aria-label="Toggle navigation">
+                <!-- HAMBURGER -->
+                <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
                     <span></span>
                     <span></span>
                     <span></span>
@@ -656,6 +701,7 @@
             </div>
         </nav>
     </header>
+
 
 
     <div class="shell">
@@ -794,7 +840,6 @@
             </section>
 
             <!-- MOMENTS -->
-            <!-- MOMENTS -->
             <section id="moments">
                 <div class="section-label">Moments I replay</div>
                 <h2 class="section-title">Indian Summer, Music Fest &amp; many memories onwards</h2>
@@ -810,38 +855,30 @@
                     <button id="moments-prev" type="button">← Earlier moments</button>
                     <button id="moments-next" type="button">More moments →</button>
                 </div>
+
+
             </section>
 
 
-            <!-- GALLERY SLIDER -->
+            <!-- GALLERY GRID -->
             <section id="gallery">
                 <div class="section-label">Photos</div>
                 <h2 class="section-title">Our Moments in Frames</h2>
                 <p class="section-sub">
-                    Six simple photos — six memories that you have and those of us.
+                    Six photos each are memories that we've shared.
                 </p>
 
-                <div class="gallery-grid">
-                    <div class="gallery-item">
-                        <img src="images/gallery-1.jpg" alt="A moment I'll always smile at.">
-                    </div>
-                    <div class="gallery-item">
-                        <img src="images/gallery-2.jpg" alt="You, looking perfect without trying.">
-                    </div>
-                    <div class="gallery-item">
-                        <img src="images/gallery-3.jpg" alt="Us, in our own little world.">
-                    </div>
-                    <div class="gallery-item">
-                        <img src="images/gallery-4.jpg" alt="The kind of memory I replay.">
-                    </div>
-                    <div class="gallery-item">
-                        <img src="images/gallery-5.jpg" alt="Your smile. Enough said.">
-                    </div>
-                    <div class="gallery-item">
-                        <img src="images/gallery-6.jpg" alt="The moment I wished time would slow down.">
-                    </div>
+                <!-- JS will fill these photos -->
+                <div class="gallery-grid"></div>
+
+                <!-- ⬇️ PLACE THE BUTTONS RIGHT HERE ⬇️ -->
+                <div class="moments-controls" style="margin-top:1.2rem;">
+                    <button id="gallery-prev" type="button">← Previous photos</button>
+                    <button id="gallery-next" type="button">More photos →</button>
                 </div>
+
             </section>
+
 
 
             <!-- POEM -->
@@ -903,11 +940,9 @@
             <span style="display:block; margin-top:0.3rem;">No audience. No likes. Just us. 💜</span>
         </footer>
     </div>
-    <div id="moments-list" class="moments-grid"></div>
+
+    <!-- 1) GALLERY SLIDER (SAFE, OPTIONAL — ONLY RUNS IF IT EXISTS) -->
     <script>
-        /* ============================================================
-           1) GALLERY SLIDER (SAFE, OPTIONAL — ONLY RUNS IF IT EXISTS)
-           ============================================================ */
         (function () {
             const slider = document.querySelector('.gallery-slider');
             if (!slider) return;   // Do nothing if the slider is not on the page
@@ -954,10 +989,8 @@
     </script>
 
 
+    <!-- 2) MOMENTS SECTION — DYNAMICALLY GENERATED CARDS -->
     <script>
-        /* ============================================================
-           2) MOMENTS SECTION — DYNAMICALLY GENERATED CARDS
-           ============================================================ */
         (function () {
             const PAGE_SIZE = 4;  // 4 cards per “page”
 
@@ -1094,37 +1127,129 @@ You really are an amazing woman for that.
 
             // Initial render (shows first 4)
             renderPage();
-
-            // ⭐ When you add more moments to the array above:
-            // - They immediately become part of the "hidden database"
-            // - User can click “More moments →” to see them,
-            //   always in groups of 4.
         })();
     </script>
+   <script>
+    (function () {
+        const PAGE_SIZE = 6; // 6 photos per page
+
+        // 📸 All gallery images live here
+        const gallery = [
+            { src: "images/gallery-1.jpg", alt: "A moment I'll always smile at." },
+            { src: "images/gallery-2.jpg", alt: "You, looking perfect without trying." },
+            { src: "images/gallery-3.jpg", alt: "Us, in our own little world." },
+            { src: "images/gallery-4.jpg", alt: "The kind of memory I replay." },
+            { src: "images/gallery-5.jpg", alt: "Your smile. Enough said." },
+            { src: "images/gallery-6.jpg", alt: "The moment I wished time would slow down." },
+
+            // add more here – every 6 will form a new “page”
+            { src: "images/gallery-7.jpg", alt: "The night we laughed more than we planned to." },
+            { src: "images/gallery-8.jpg", alt: "You, glowing without even trying." },
+            { src: "images/gallery-9.jpg", alt: "One of my favourite views of us." },
+            { src: "images/gallery-10.jpg", alt: "You, glowing without even trying." },
+            { src: "images/gallery-11.jpg", alt: "You, glowing without even trying." },
+            { src: "images/gallery-12.jpg", alt: "You, glowing without even trying." },
+           
+             { src: "images/gallery-13.jpg", alt: "You, glowing without even trying." },
+            { src: "images/gallery-14.jpg", alt: "You, glowing without even trying." }
+
+        ];
+
+        const container = document.querySelector(".gallery-grid");
+        const prevBtn = document.getElementById("gallery-prev");
+        const nextBtn = document.getElementById("gallery-next");
+
+        if (!container || !prevBtn || !nextBtn) return;
+
+        let currentPage = 0;
+
+        function renderPage() {
+            container.innerHTML = "";
+
+            const start = currentPage * PAGE_SIZE;
+            const end = Math.min(start + PAGE_SIZE, gallery.length);
+
+            for (let i = start; i < end; i++) {
+                const item = gallery[i];
+                const div = document.createElement("div");
+                div.className = "gallery-item";
+                div.innerHTML = `<img src="${item.src}" alt="${item.alt}">`;
+                container.appendChild(div);
+
+                // 🔥 make it visible (triggers fade-in animation)
+                requestAnimationFrame(() => {
+                    div.classList.add("is-visible");
+                });
+            }
+
+            const maxPage = Math.floor((gallery.length - 1) / PAGE_SIZE);
+            prevBtn.disabled = currentPage === 0;
+            nextBtn.disabled = currentPage >= maxPage;
+        }
+
+        prevBtn.addEventListener("click", () => {
+            if (currentPage > 0) {
+                currentPage--;
+                renderPage();
+            }
+        });
+
+        nextBtn.addEventListener("click", () => {
+            const maxPage = Math.floor((gallery.length - 1) / PAGE_SIZE);
+            if (currentPage < maxPage) {
+                currentPage++;
+                renderPage();
+            }
+        });
+
+        // initial load
+        renderPage();
+    })();
+</script>
+
+
 
 
     <script>
-        /* ============================================================
-           3) SMOOTH SCROLL FOR NAV BUTTONS
-           ============================================================ */
         (function () {
-            document.querySelectorAll('a[href^="#"]').forEach(link => {
+            const nav = document.querySelector('.nav');
+            const navToggle = document.querySelector('.nav-toggle');
+            const navLinksWrapper = document.querySelector('.nav-links');
+
+            if (!nav || !navToggle || !navLinksWrapper) return;
+
+            const closeNav = () => {
+                nav.classList.remove('nav-open');
+                navToggle.setAttribute('aria-expanded', 'false');
+            };
+
+            /* ---------- MOBILE NAV TOGGLE ---------- */
+            navToggle.addEventListener('click', () => {
+                const isOpen = nav.classList.toggle('nav-open');
+                navToggle.setAttribute('aria-expanded', String(isOpen));
+            });
+
+            /* ---------- SMOOTH SCROLL + CLOSE NAV ---------- */
+            navLinksWrapper.querySelectorAll('a[href^="#"]').forEach(link => {
                 link.addEventListener('click', function (e) {
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if (!target) return;
+                    const targetId = this.getAttribute('href').slice(1);
+                    const targetEl = document.getElementById(targetId);
+                    if (!targetEl) return;
 
-                    e.preventDefault();
+                    e.preventDefault(); // stop the instant jump
 
-                    window.scrollTo({
-                        top: target.offsetTop - 60, // adjust for header height
-                        behavior: "smooth"
+                    // Use scroll-margin-top on sections + smooth scroll
+                    targetEl.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
                     });
+
+                    // Close mobile nav after clicking
+                    closeNav();
                 });
             });
         })();
     </script>
-
-
 
 
 </body>
