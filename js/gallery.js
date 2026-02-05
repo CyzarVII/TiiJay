@@ -20,8 +20,11 @@
         { type: "image", src: "images/gallery-13.jpg", alt: "Music fest.." },
         { type: "image", src: "images/gallery-14.jpg", alt: "Just, you being beautiful." },
         { type: "image", src: "images/gallery-15.jpg", alt: "Catamarang night." },
-        { type: "image", src: "images/gallery-16.jpg", alt: "The family, soon mine will be together in the picture too." }
+        { type: "image", src: "images/gallery-16.jpg", alt: "The family, soon mine will be together in the picture too." },
         // To add videos, use: { type: "video", src: "images/video.mp4", alt: "Video description" }
+        //videos can be added like this example:
+        { type: "video", src: "images/video-1.mp4", alt: "Chilling at Stevie's Game night" },
+        { type: "video", src: "images/video-2.mp4", alt: "Music Fest night" },
     ];
 
     const container = document.querySelector(".gallery-grid");
