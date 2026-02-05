@@ -16,28 +16,41 @@
 
     // Array of all gallery items - mix of photos and videos
     const gallery = [
-        { type: "image", src: "images/gallery-1.jpg", alt: "A moment I'll always smile at." },
-        { type: "image", src: "images/gallery-2.jpg", alt: "You, looking perfect without trying." },
-        { type: "image", src: "images/gallery-3.jpg", alt: "Us, in our own little world." },
-        { type: "image", src: "images/gallery-4.jpg", alt: "The kind of memory I replay." },
-        { type: "image", src: "images/gallery-5.jpg", alt: "Your smile. Enough said." },
-        { type: "image", src: "images/gallery-6.jpg", alt: "The moment I wished time would slow down." },
+        { type: "image", src: "images/gallery-1.jpg", alt: "A moment I'll always smile at" },
+        { type: "image", src: "images/gallery-2.jpg", alt: "You, looking perfect without trying" },
+        { type: "image", src: "images/gallery-3.jpg", alt: "Us, in our own little world" },
+        { type: "image", src: "images/gallery-4.jpg", alt: "The kind of memory I replay" },
+        { type: "image", src: "images/gallery-5.jpg", alt: "Your smile. Enough said" },
+        { type: "image", src: "images/gallery-6.jpg", alt: "The moment I wished time would slow down" },
 
-        { type: "image", src: "images/gallery-7.jpg", alt: "The night we laughed more than we planned to." },
-        { type: "image", src: "images/gallery-8.jpg", alt: "You, glowing without even trying." },
-        { type: "image", src: "images/gallery-9.jpg", alt: "One of my favourite views of us." },
-        { type: "image", src: "images/gallery-10.jpg", alt: "Look at you, sleeping peacefully." },
-        { type: "image", src: "images/gallery-11.jpg", alt: "Our Gym night." },
-        { type: "image", src: "images/gallery-12.jpg", alt: "Stevie's wedding, my gosh you were beautiful." },
+        { type: "image", src: "images/gallery-7.jpg", alt: "The night we laughed more than we planned to" },
+        { type: "image", src: "images/gallery-8.jpg", alt: "You, glowing without even trying" },
+        { type: "image", src: "images/gallery-9.jpg", alt: "One of my favourite views of us" },
+        { type: "image", src: "images/gallery-10.jpg", alt: "Look at you, sleeping peacefully" },
+        { type: "image", src: "images/gallery-11.jpg", alt: "Our Gym night" },
+        { type: "image", src: "images/gallery-12.jpg", alt: "Stevie's wedding, my gosh you were beautiful" },
 
-        { type: "image", src: "images/gallery-13.jpg", alt: "Music fest.." },
-        { type: "image", src: "images/gallery-14.jpg", alt: "Just, you being beautiful." },
-        { type: "image", src: "images/gallery-15.jpg", alt: "Catamarang night." },
-        { type: "image", src: "images/gallery-16.jpg", alt: "The family, soon mine will be together in the picture too." },
+        { type: "image", src: "images/gallery-13.jpg", alt: "Music fest" },
+        { type: "image", src: "images/gallery-14.jpg", alt: "Just, you being beautiful" },
+        { type: "image", src: "images/gallery-15.jpg", alt: "Catamarang night" },
+        { type: "image", src: "images/gallery-16.jpg", alt: "The family, soon mine will be together in the picture too" },
+        { type: "image", src: "images/gallery-17.jpg", alt: "Nevis Date, soon to return" },
+        { type: "image", src: "images/gallery-18.jpg", alt: "Your beautiful smile captivates me" },
+        { type: "image", src: "images/gallery-19.jpg", alt: "Sports day, I still rep Sandy Point though" },
+        { type: "image", src: "images/gallery-20.jpg", alt: "Grace's Baby Shower" },
+        { type: "image", src: "images/gallery-21.jpg", alt: "You are such a character" },
+        { type: "image", src: "images/gallery-22.jpg", alt: "Christmas Dinner, we definitely look like we're married already" },
+        { type: "image", src: "images/gallery-23.jpg", alt: "Our family, soon to have mine with yours" },
+        { type: "image", src: "images/gallery-24.jpg", alt: "Date night at boozies, you had my staring at you all night" },
+        { type: "image", src: "images/gallery-25.jpg", alt: "Beach day when you looking so fine" },
+
         // TO ADD VIDEOS: Use the same format but set type to "video" instead of "image"
         // Example: { type: "video", src: "videos/my-video.mp4", alt: "Video description" }
         { type: "video", src: "videos/video-1.mp4", alt: "Chilling at Stevie's Game night" },
         { type: "video", src: "videos/video-2.mp4", alt: "Music Fest night" },
+        { type: "video", src: "videos/video-3.mp4", alt: "Chilling at home" },
+        { type: "video", src: "videos/video-4.mp4", alt: "My beautiful woman" }
+        
     ]; // End of gallery array
 
     // Find the HTML elements that hold our gallery
