@@ -23,8 +23,8 @@
         { type: "image", src: "images/gallery-16.jpg", alt: "The family, soon mine will be together in the picture too." },
         // To add videos, use: { type: "video", src: "images/video.mp4", alt: "Video description" }
         //videos can be added like this example:
-        { type: "video", src: "images/video-1.mp4", alt: "Chilling at Stevie's Game night" },
-        { type: "video", src: "images/video-2.mp4", alt: "Music Fest night" },
+        { type: "video", src: "videos/video-1.mp4", alt: "Chilling at Stevie's Game night" },
+        { type: "video", src: "videos/video-2.mp4", alt: "Music Fest night" },
     ];
 
     const container = document.querySelector(".gallery-grid");

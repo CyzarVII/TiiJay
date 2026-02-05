@@ -113,18 +113,14 @@ header {
 
 .nav-links a {
     padding: 0.3rem 0.8rem;
-    border-radius: var(--radius-pill);
-    transition: 0.2s;
-    border: 1px solid transparent;
+    transition: color 0.2s;
+    border: none;
+    color: var(--text-main);
     position: relative;
-    background: linear-gradient(90deg, rgba(168, 85, 247, 0.1), rgba(192, 132, 252, 0.1), rgba(168, 85, 247, 0.1));
-    background-size: 200% 100%;
 }
 
 .nav-links a:hover {
-    background: rgba(168, 85, 247, 0.1);
-    border-color: rgba(168, 85, 247, 0.4);
-    animation: colorFlow 2s ease-in-out infinite;
+    animation: textColorFlash 0.6s ease-in-out;
 }
 
 /* --- HAMBURGER BUTTON --- */
@@ -573,14 +569,12 @@ header {
 }
 
 .gallery-item:hover {
-    transform: scale(1.03);
     border-color: rgba(168, 85, 247, 0.6);
-    box-shadow: 0 18px 40px rgba(168, 85, 247, 0.22);
-    animation: breathe 2s ease-in-out infinite;
+    animation: breatheGallery 2s ease-in-out infinite;
 }
 
 .gallery-item:hover img {
-    animation: breatheImage 2s ease-in-out infinite;
+    animation: breatheImagePulse 2s ease-in-out infinite;
 }
 
 .gallery-item:focus-visible {
@@ -830,36 +824,41 @@ footer {
 }
 
 /* COLOR FLOW ANIMATION FOR NAV ---------------------------------- */
-@keyframes colorFlow {
-    0%, 100% {
-        background-position: 0% center;
+/* TEXT COLOR FLASH ANIMATION FOR NAV ----------------------- */
+@keyframes textColorFlash {
+    0% {
+        color: var(--text-main);
     }
 
     50% {
-        background-position: 100% center;
+        color: var(--accent-soft);
+    }
+
+    100% {
+        color: var(--text-main);
     }
 }
 
 /* BREATHING ANIMATION FOR GALLERY ITEMS ----------------------- */
-@keyframes breathe {
+@keyframes breatheGallery {
     0%, 100% {
-        transform: scale(1.03);
-        box-shadow: 0 18px 40px rgba(168, 85, 247, 0.22);
+        transform: scale(1);
+        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+    }
+
+    50% {
+        transform: scale(1.04);
+        box-shadow: 0 20px 45px rgba(168, 85, 247, 0.35);
+    }
+}
+
+@keyframes breatheImagePulse {
+    0%, 100% {
+        transform: scale(1);
     }
 
     50% {
         transform: scale(1.05);
-        box-shadow: 0 24px 50px rgba(168, 85, 247, 0.35);
-    }
-}
-
-@keyframes breatheImage {
-    0%, 100% {
-        transform: scale(1.06);
-    }
-
-    50% {
-        transform: scale(1.08);
     }
 }
 
