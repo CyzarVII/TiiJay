@@ -11,7 +11,8 @@
     --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.55);
 }
 
-/* RESET / BASE -------------------------------------------------- */
+/* RESET / BASE - Default styles for ALL elements on the page
+   Removes default margins and padding, and sets consistent box sizing */
 
 * {
     margin: 0;
@@ -113,14 +114,27 @@ header {
 
 .nav-links a {
     padding: 0.3rem 0.8rem;
-    transition: color 0.2s;
+    transition: none;
     border: none;
+    background: none;
     color: var(--text-main);
     position: relative;
+    display: inline-block;
 }
 
 .nav-links a:hover {
-    animation: textColorFlash 0.6s ease-in-out;
+    background: linear-gradient(90deg, 
+        var(--text-main) 0%,
+        var(--accent-soft) 25%,
+        var(--accent-soft) 50%,
+        var(--text-main) 75%,
+        var(--text-main) 100%
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: purpleFlowThrough 0.6s ease-in-out;
 }
 
 /* --- HAMBURGER BUTTON --- */
@@ -535,7 +549,10 @@ header {
     color: var(--text-muted);
 }
 
-/* GALLERY – RESPONSIVE GRID ------------------------------------ */
+/* GALLERY – RESPONSIVE GRID 
+   This styling creates the grid layout for photos and videos.
+   Shows different number of columns on different screen sizes (responsive design).
+   Each gallery item has a breathing animation that pulses when you hover over it. */
 
 .gallery-grid {
     display: grid;
@@ -623,7 +640,10 @@ header {
     transform: translate(-50%, -50%) scale(1.1);
 }
 
-/* LIGHTBOX MODAL ------------------------------------------------- */
+/* LIGHTBOX MODAL
+   When you click on a photo or video, it opens in this fullscreen modal.
+   The dark overlay behind it prevents you from interacting with the page.
+   You can close it by clicking the X button or pressing Escape. */
 .lightbox-modal {
     position: fixed;
     top: 0;
@@ -824,22 +844,27 @@ footer {
 }
 
 /* COLOR FLOW ANIMATION FOR NAV ---------------------------------- */
-/* TEXT COLOR FLASH ANIMATION FOR NAV ----------------------- */
-@keyframes textColorFlash {
+/* PURPLE FLOW THROUGH TEXT ANIMATION
+   When you hover over navigation links, a purple glow flows through the text.
+   This creates a smooth, animated effect from left to right across the letters. */
+@keyframes purpleFlowThrough {
     0% {
-        color: var(--text-main);
+        background-position: -200% center;
     }
 
     50% {
-        color: var(--accent-soft);
+        background-position: 0% center;
     }
 
     100% {
-        color: var(--text-main);
+        background-position: 200% center;
     }
 }
+}
 
-/* BREATHING ANIMATION FOR GALLERY ITEMS ----------------------- */
+/* BREATHING ANIMATION FOR GALLERY ITEMS
+   Gallery photos and videos have a subtle pulsing/breathing effect on hover.
+   The items slightly grow larger and glow more intensely, creating a "breathing" effect. */
 @keyframes breatheGallery {
     0%, 100% {
         transform: scale(1);
@@ -888,7 +913,10 @@ footer {
     }
 }
 
-/* RESPONSIVE ---------------------------------------------------- */
+/* RESPONSIVE - Mobile and Tablet Adjustments
+   These rules make the page look good on phones and tablets.
+   Font sizes, spacing, and layouts adjust for smaller screens.
+   The hamburger menu only shows on mobile devices. */
 
 @media (max-width: 780px) {
     .shell {

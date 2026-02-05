@@ -2,28 +2,34 @@
 <html lang="en">
 
 <head>
+    <!-- Basic page setup -->
     <meta charset="UTF-8" />
     <title>Jamal & Tiana</title>
+    
+    <!-- Mobile responsiveness - makes the page work on phones and tablets -->
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- iOS / mobile top-bar theming -->
+    
+    <!-- Phone top-bar theming (dark background) -->
     <meta name="theme-color" content="#05030a">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-    <!-- Fonts -->
+    <!-- Google Fonts - beautiful typography for the page -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Great+Vibes&display=swap"
         rel="stylesheet">
 
-    <!-- Styles -->
+    <!-- Our custom CSS file - controls all the colors, layouts, and animations -->
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
+    <!-- NAVIGATION HEADER -->
     <header>
         <nav class="nav">
             <div class="nav-left">
+                <!-- The title that shows in the navigation bar -->
                 <div class="nav-title">JAMAL &amp; TIANA • SINCE JAN 06, 2025</div>
 
-                <!-- HAMBURGER -->
+                <!-- Hamburger menu button (shows on mobile phones) -->
                 <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
                     <span></span>
                     <span></span>
@@ -31,6 +37,7 @@
                 </button>
             </div>
 
+            <!-- Navigation links - jump to different sections when clicked -->
             <div class="nav-links">
                 <a href="#us">Us</a>
                 <a href="#birthday">Birthday</a>
@@ -44,8 +51,8 @@
 
     <div class="shell">
         <main>
-            <!-- HERO / US -->
-            <section id="us" class="hero">
+            <!-- HERO / US SECTION -->
+            <!-- The big opening section with introduction and main photo -->
                 <div class="hero-left">
                     <div class="pill">
                         <span class="pill-dot"></span>
@@ -78,7 +85,8 @@
                 </div>
             </section>
 
-            <!-- BIRTHDAY MESSAGE -->
+            <!-- BIRTHDAY MESSAGE SECTION -->
+            <!-- Special birthday message for Tiana -->
             <section id="birthday">
                 <div class="section-label">For your birthday</div>
                 <h2 class="section-title">Happy Birthday, Tiana 🎂💜</h2>
@@ -115,8 +123,8 @@
                 </div>
             </section>
 
-            <!-- OUR STORY -->
-            <section id="story">
+            <!-- OUR STORY SECTION -->
+            <!-- How we started and how our relationship is going -->
                 <div class="section-label">Our story</div>
                 <h2 class="section-title">How it started &amp; how it’s going</h2>
                 <p class="section-sub">
@@ -175,7 +183,8 @@
                 </div>
             </section>
 
-            <!-- MOMENTS -->
+            <!-- MOMENTS SECTION -->
+            <!-- A carousel/slideshow of special moments we've shared -->
             <section id="moments">
                 <div class="section-label">Moments I replay</div>
                 <h2 class="section-title">Indian Summer, Music Fest &amp; many memories onwards</h2>
@@ -183,15 +192,18 @@
                     Some nights stay with you longer than others. These are a few of mine.
                 </p>
 
+                <!-- This gets filled by moments.js with the moments -->
                 <div id="moments-list" class="moments-grid"></div>
 
+                <!-- Buttons to navigate through moments -->
                 <div class="moments-controls">
                     <button id="moments-prev" type="button">← Earlier moments</button>
                     <button id="moments-next" type="button">More moments →</button>
                 </div>
             </section>
 
-            <!-- GALLERY GRID -->
+            <!-- GALLERY SECTION -->
+            <!-- Grid of photos and videos that open in a lightbox viewer -->
             <section id="gallery">
                 <div class="section-label">Memories in Frames</div>
                 <h2 class="section-title">Our Moments in Frames</h2>
@@ -199,16 +211,18 @@
                     Some memories we have shared 
                 </p>
 
+                <!-- This gets filled by gallery.js with photos and videos -->
                 <div class="gallery-grid"></div>
 
+                <!-- Buttons to navigate through photos/videos -->
                 <div class="moments-controls" style="margin-top:1.2rem;">
                     <button id="gallery-prev" type="button">← Previous photos</button>
                     <button id="gallery-next" type="button">More photos →</button>
                 </div>
             </section>
 
-            <!-- POEM -->
-            <section id="poem">
+            <!-- POEM SECTION -->
+            <!-- A special poem about the relationship -->
                 <div class="section-label">For you</div>
                 <h2 class="section-title">A poem about us</h2>
                 <p class="section-sub">
@@ -267,10 +281,14 @@
         </footer>
     </div>
 
-    <!-- Scripts -->
+    <!-- JAVASCRIPT FILES - Load the scripts that make the page interactive -->
+    <!-- lightbox.js: Opens photos/videos in a fullscreen modal viewer -->
     <script src="js/lightbox.js"></script>
+    <!-- moments.js: Creates the carousel/slideshow for moments -->
     <script src="js/moments.js"></script>
+    <!-- gallery.js: Creates the gallery grid and pagination for photos/videos -->
     <script src="js/gallery.js"></script>
+    <!-- nav.js: Handles the hamburger menu and smooth scrolling on mobile -->
     <script src="js/nav.js"></script>
 
 </body>

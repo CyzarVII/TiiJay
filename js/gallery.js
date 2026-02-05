@@ -1,7 +1,20 @@
-// Gallery grid pagination with lightbox support
+/**
+ * GALLERY GRID MODULE
+ * 
+ * This file creates the gallery grid that displays photos and videos in pages.
+ * When you click on any photo or video, it opens a fullscreen lightbox viewer.
+ * 
+ * How it works:
+ * 1. Stores all gallery items (photos and videos) in an array
+ * 2. Shows 6 items per page
+ * 3. Prev/Next buttons let you browse through different pages
+ * 4. Clicking any item opens it in the lightbox modal
+ */
 (function () {
+    // How many items to show per page (6 photos/videos at a time)
     const PAGE_SIZE = 6;
 
+    // Array of all gallery items - mix of photos and videos
     const gallery = [
         { type: "image", src: "images/gallery-1.jpg", alt: "A moment I'll always smile at." },
         { type: "image", src: "images/gallery-2.jpg", alt: "You, looking perfect without trying." },
@@ -21,30 +34,43 @@
         { type: "image", src: "images/gallery-14.jpg", alt: "Just, you being beautiful." },
         { type: "image", src: "images/gallery-15.jpg", alt: "Catamarang night." },
         { type: "image", src: "images/gallery-16.jpg", alt: "The family, soon mine will be together in the picture too." },
-        // To add videos, use: { type: "video", src: "images/video.mp4", alt: "Video description" }
-        //videos can be added like this example:
+        // TO ADD VIDEOS: Use the same format but set type to "video" instead of "image"
+        // Example: { type: "video", src: "videos/my-video.mp4", alt: "Video description" }
         { type: "video", src: "videos/video-1.mp4", alt: "Chilling at Stevie's Game night" },
         { type: "video", src: "videos/video-2.mp4", alt: "Music Fest night" },
-    ];
+    ]; // End of gallery array
 
-    const container = document.querySelector(".gallery-grid");
-    const prevBtn = document.getElementById("gallery-prev");
-    const nextBtn = document.getElementById("gallery-next");
+    // Find the HTML elements that hold our gallery
+    const container = document.querySelector(".gallery-grid"); // The grid that shows photos/videos
+    const prevBtn = document.getElementById("gallery-prev"); // "Previous" button
+    const nextBtn = document.getElementById("gallery-next"); // "Next" button
 
+    // Stop if we can't find the elements on the page
     if (!container || !prevBtn || !nextBtn) return;
 
+    // Keep track of which page we're on (starts at 0)
     let currentPage = 0;
 
+    /**
+     * Render the current page of gallery items
+     * This function:
+     * 1. Clears the old items
+     * 2. Creates new gallery item elements for the current page
+     * 3. Adds click handlers so clicking opens the lightbox
+     * 4. Disables Prev/Next buttons at the beginning/end
+     */
     function renderPage() {
         container.innerHTML = "";
 
-        const start = currentPage * PAGE_SIZE;
-        const end = Math.min(start + PAGE_SIZE, gallery.length);
+        // Figure out which items to show on this page
+        const start = currentPage * PAGE_SIZE; // Starting position
+        const end = Math.min(start + PAGE_SIZE, gallery.length); // Ending position
 
+        // Loop through each item on this page and create an HTML element for it
         for (let i = start; i < end; i++) {
             const item = gallery[i];
             const div = document.createElement("div");
-            div.className = "gallery-item";
+            div.className = "gallery-item"; // CSS styling for gallery items
             div.setAttribute('role', 'button');
             div.setAttribute('tabindex', '0');
             
@@ -58,12 +84,11 @@
                 div.innerHTML = `<img src="${item.src}" alt="${item.alt}">`;
             }
             
+            // When someone clicks this item, open it in the lightbox viewer
             div.addEventListener("click", () => {
-                console.log('Gallery item clicked, openLightbox exists:', typeof window.openLightbox);
                 if (window.openLightbox) {
+                    // Open the lightbox and show this specific item
                     window.openLightbox(gallery, i);
-                } else {
-                    console.error('openLightbox not found');
                 }
             });
             
@@ -81,25 +106,31 @@
             });
         }
 
+        // Calculate the highest page number we can go to
         const maxPage = Math.floor((gallery.length - 1) / PAGE_SIZE);
+        // Disable "Previous" button if we're on the first page
         prevBtn.disabled = currentPage === 0;
+        // Disable "Next" button if we're on the last page
         nextBtn.disabled = currentPage >= maxPage;
     }
 
+    // "Previous" button - go back one page
     prevBtn.addEventListener("click", () => {
         if (currentPage > 0) {
-            currentPage--;
-            renderPage();
+            currentPage--; // Move to previous page
+            renderPage(); // Show the new page
         }
     });
 
+    // "Next" button - go forward one page
     nextBtn.addEventListener("click", () => {
         const maxPage = Math.floor((gallery.length - 1) / PAGE_SIZE);
         if (currentPage < maxPage) {
-            currentPage++;
-            renderPage();
+            currentPage++; // Move to next page
+            renderPage(); // Show the new page
         }
     });
 
+    // Show the first page when the page loads
     renderPage();
 })();

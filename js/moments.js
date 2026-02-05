@@ -1,7 +1,15 @@
-// Moments carousel functionality
+/**
+ * MOMENTS CAROUSEL MODULE
+ * 
+ * This file creates a carousel (slideshow) that displays relationship moments.
+ * It works similar to the gallery but shows 4 moments at a time with story text.
+ * Each moment is something special we shared together.
+ */
 (function () {
+    // How many moments to show per page
     const PAGE_SIZE = 4;
 
+    // Array of all our special moments
     const moments = [
         {
             label: "FIRST OFFICIAL DATE",
