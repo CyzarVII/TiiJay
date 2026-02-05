@@ -14,6 +14,7 @@
         </div>
     `;
     document.body.appendChild(modal);
+    console.log('Lightbox modal created');
 
     const closeBtn = modal.querySelector('.lightbox-close');
     const prevBtn = modal.querySelector('.lightbox-prev');
@@ -26,11 +27,13 @@
     let items = [];
 
     function closeModal() {
+        console.log('Closing modal');
         modal.classList.remove('active');
         document.body.style.overflow = '';
     }
 
     function openModal(itemsList, startIndex = 0) {
+        console.log('Opening modal with index:', startIndex, 'total items:', itemsList.length);
         items = itemsList;
         currentIndex = startIndex;
         modal.classList.add('active');
@@ -39,10 +42,15 @@
     }
 
     function showItem() {
-        if (!items.length) return;
+        if (!items.length) {
+            console.error('No items in gallery');
+            return;
+        }
 
         const item = items[currentIndex];
         mediaContainer.innerHTML = '';
+
+        console.log('Showing item:', currentIndex, item);
 
         // Support both images and videos
         if (item.type === 'video') {
@@ -50,11 +58,15 @@
             video.src = item.src;
             video.controls = true;
             video.autoplay = true;
+            video.style.width = '100%';
+            video.style.height = 'auto';
             mediaContainer.appendChild(video);
         } else {
             const img = document.createElement('img');
             img.src = item.src;
             img.alt = item.alt;
+            img.style.maxWidth = '100%';
+            img.style.maxHeight = '100%';
             mediaContainer.appendChild(img);
         }
 
@@ -100,4 +112,5 @@
 
     // Expose to global scope so gallery can use it
     window.openLightbox = openModal;
+    console.log('window.openLightbox is now available');
 })();

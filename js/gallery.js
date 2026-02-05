@@ -56,7 +56,12 @@
             }
             
             div.addEventListener("click", () => {
-                window.openLightbox(gallery, i);
+                console.log('Gallery item clicked, openLightbox exists:', typeof window.openLightbox);
+                if (window.openLightbox) {
+                    window.openLightbox(gallery, i);
+                } else {
+                    console.error('openLightbox not found');
+                }
             });
             
             div.addEventListener("keydown", (e) => {
