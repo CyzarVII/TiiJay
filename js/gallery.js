@@ -34,24 +34,26 @@
         { type: "image", src: "images/gallery-14.jpg", alt: "Just, you being beautiful" },
         { type: "image", src: "images/gallery-15.jpg", alt: "Catamarang night" },
         { type: "image", src: "images/gallery-16.jpg", alt: "The family, soon mine will be together in the picture too" },
-        { type: "image", src: "images/gallery-17.jpg", alt: "Nevis Date, soon to return" },
-        { type: "image", src: "images/gallery-18.jpg", alt: "Your beautiful smile captivates me" },
-        { type: "image", src: "images/gallery-19.jpg", alt: "Sports day, I still rep Sandy Point though" },
-        { type: "image", src: "images/gallery-20.jpg", alt: "Grace's Baby Shower" },
-        { type: "image", src: "images/gallery-21.jpg", alt: "You are such a character" },
-        { type: "image", src: "images/gallery-22.jpg", alt: "Christmas Dinner, we definitely look like we're married already" },
-        { type: "image", src: "images/gallery-23.jpg", alt: "Our family, soon to have mine with yours" },
-        { type: "image", src: "images/gallery-24.jpg", alt: "Date night at boozies, you had my staring at you all night" },
-        { type: "image", src: "images/gallery-25.jpg", alt: "Beach day when you looking so fine" },
+        { type: "image", src: "images/gallery-17.jpeg", alt: "Nevis Date, soon to return" },
+        { type: "image", src: "images/gallery-18.jpeg", alt: "Your beautiful smile captivates me" },
+        { type: "image", src: "images/gallery-19.jpeg", alt: "Sports day, I still rep Sandy Point though" },
+        { type: "image", src: "images/gallery-20.jpeg", alt: "Grace's Baby Shower" },
+        { type: "image", src: "images/gallery-21.jpeg", alt: "You are such a character" },
+        { type: "image", src: "images/gallery-22.jpeg", alt: "Christmas Dinner, we definitely look like we're married already" },
+        { type: "image", src: "images/gallery-23.jpeg", alt: "Our family, soon to have mine with yours" },
+        { type: "image", src: "images/gallery-24.jpeg", alt: "Date night at boozies, you had my staring at you all night" },
+        { type: "image", src: "images/gallery-25.jpeg", alt: "Beach day when you looking so fine" },
 
         // TO ADD VIDEOS: Use the same format but set type to "video" instead of "image"
         // Example: { type: "video", src: "videos/my-video.mp4", alt: "Video description" }
         { type: "video", src: "videos/video-1.mp4", alt: "Chilling at Stevie's Game night" },
         { type: "video", src: "videos/video-2.mp4", alt: "Music Fest night" },
         { type: "video", src: "videos/video-3.mp4", alt: "Chilling at home" },
-        { type: "video", src: "videos/video-4.mp4", alt: "My beautiful woman" }
+        { type: "video", src: "videos/video-4.mp4", alt: "My beautiful woman" },
         
-    ]; // End of gallery array
+    ]; 
+    
+    // End of gallery array
 
     // Find the HTML elements that hold our gallery
     const container = document.querySelector(".gallery-grid"); // The grid that shows photos/videos
