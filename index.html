@@ -53,10 +53,11 @@
         <main>
             <!-- HERO / US SECTION -->
             <!-- The big opening section with introduction and main photo -->
+            <section class="hero">
                 <div class="hero-left">
                     <div class="pill">
                         <span class="pill-dot"></span>
-                        <span>Just Jamal &amp; Tiana • A private little love page</span>
+                        <span>A love album for us</span>
                     </div>
 
                     <h1 class="names-script">Jamal &amp; Tiana</h1>
@@ -74,7 +75,7 @@
                     </div>
                 </div>
 
-                <div class="hero-photo-card">
+                <div class="hero-photo-card" role="button" tabindex="0">
                     <div class="hero-photo-card-inner">
                         <img src="images/us-main.jpg" alt="Jamal and Tiana">
                     </div>
@@ -290,6 +291,31 @@
     <script src="js/gallery.js"></script>
     <!-- nav.js: Handles the hamburger menu and smooth scrolling on mobile -->
     <script src="js/nav.js"></script>
+
+    <!-- Make hero image clickable to open in lightbox -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const heroCard = document.querySelector('.hero-photo-card');
+            if (heroCard && window.openLightbox) {
+                const heroItem = {
+                    type: 'image',
+                    src: 'images/us-main.jpg',
+                    alt: 'Jamal and Tiana - One moment out of many'
+                };
+                
+                heroCard.addEventListener('click', function() {
+                    window.openLightbox([heroItem], 0);
+                });
+                
+                heroCard.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        window.openLightbox([heroItem], 0);
+                    }
+                });
+            }
+        });
+    </script>
 
 </body>
 

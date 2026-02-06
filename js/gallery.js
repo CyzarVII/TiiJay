@@ -43,12 +43,13 @@
         { type: "image", src: "images/gallery-23.jpeg", alt: "Our family, soon to have mine with yours" },
         { type: "image", src: "images/gallery-24.jpeg", alt: "Date night at boozies, you had my staring at you all night" },
         { type: "image", src: "images/gallery-25.jpeg", alt: "Beach day when you looking so fine" },
+      
 
         // TO ADD VIDEOS: Use the same format but set type to "video" instead of "image"
         // Example: { type: "video", src: "videos/my-video.mp4", alt: "Video description" }
-        { type: "video", src: "videos/video-1.mp4", alt: "Chilling at Stevie's Game night" },
+        { type: "video", src: "videos/video-1.mp4", alt: "Stevie's Game night" },
         { type: "video", src: "videos/video-2.mp4", alt: "Music Fest night" },
-        { type: "video", src: "videos/video-3.mp4", alt: "Chilling at home" },
+        { type: "video", src: "videos/video-3.mp4", alt: "Us at home" },
         { type: "video", src: "videos/video-4.mp4", alt: "My beautiful woman" },
         
     ]; 
@@ -89,10 +90,16 @@
             div.setAttribute('role', 'button');
             div.setAttribute('tabindex', '0');
             
+            // Track which gallery item this is for CSS targeting
+            const galleryIndex = i + 1;
+            div.setAttribute('data-gallery', `gallery-${galleryIndex}`);
+            
             if (item.type === "video") {
                 div.classList.add("gallery-video");
+                // Use thumbnail image for video items
+                const thumbnailSrc = item.src.replace("videos/", "images/").replace(".mp4", "-thumb.svg");
                 div.innerHTML = `
-                    <img src="${item.src}" alt="${item.alt}" style="width: 100%; height: 100%; object-fit: cover;">
+                    <img src="${thumbnailSrc}" alt="${item.alt}" style="width: 100%; height: 100%; object-fit: cover;">
                     <span class="video-icon">▶</span>
                 `;
             } else {

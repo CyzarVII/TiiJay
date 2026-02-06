@@ -47,6 +47,12 @@
     let items = [];
 
     function closeModal() {
+        // Stop any playing videos
+        const video = mediaContainer.querySelector('video');
+        if (video) {
+            video.pause();
+            video.currentTime = 0; // Reset to start
+        }
         modal.classList.remove('active');
         document.body.style.overflow = ''; // Re-enable page scrolling
     }
