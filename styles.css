@@ -910,6 +910,11 @@ header {
         right: 0.5rem;
         font-size: 1.5rem;
     }
+
+    .pill {
+        margin-top: 0;
+        margin-bottom: 1rem;
+    }
 }
 
 /* FOOTER -------------------------------------------------------- */
@@ -1043,6 +1048,11 @@ footer {
     .hero-photo-card {
         max-width: 320px;
         margin: 0 auto;
+    }
+
+    .pill {
+        margin-top: 0;
+        margin-bottom: 1rem;
     }
 }
 
