@@ -183,7 +183,6 @@ how to handle your brother well, they definitely are a match and it makes me hap
                     <div class="moment-label">${m.label}</div>
                     <button class="moment-date-btn" aria-label="Show date">Date</button>
                 </div>
-                <div class="moment-title">${m.title}</div>
                 <div class="moment-date-display" style="display: none;">${m.date || "No date set"}</div>
                 <p>${m.text}</p>
             `;

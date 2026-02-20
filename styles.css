@@ -9,6 +9,7 @@
     --radius-lg: 18px;
     --radius-pill: 999px;
     --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.55);
+    --header-offset: 120px;
 }
 
 /* RESET / BASE - Default styles for ALL elements on the page
@@ -69,7 +70,7 @@ main {
 
 section {
     margin: 2.8rem 0;
-    scroll-margin-top: 80px;
+    scroll-margin-top: var(--header-offset);
     /* offset for sticky header */
     overflow: visible;
 }
@@ -80,9 +81,10 @@ header {
     position: sticky;
     top: 0;
     z-index: 50;
-    backdrop-filter: blur(14px);
-    background: linear-gradient(to bottom, rgba(5, 3, 10, 0.95), rgba(5, 3, 10, 0.78));
-    border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+    /* subtle translucent header so page content shows through */
+    backdrop-filter: blur(8px);
+    background: linear-gradient(to bottom, rgba(5, 3, 10, 0.22), rgba(5, 3, 10, 0.12));
+    border-bottom: 1px solid rgba(148, 163, 184, 0.06);
 }
 
 /* --- NAVIGATION BASE --- */
@@ -90,7 +92,7 @@ header {
 .nav {
     max-width: 980px;
     margin: 0 auto;
-    padding: 0.75rem 1.5rem;
+    padding: 0.75rem 1.5rem; /* restored compact vertical padding */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -110,9 +112,21 @@ header {
     color: var(--text-muted);
 }
 
+a.nav-title {
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a.nav-title:hover {
+    color: var(--accent-soft);
+}
+
 .nav-links {
     display: flex;
-    gap: 0.6rem;
+    justify-content: space-around; /* evenly breathe between items */
+    width: min(860px, 72%);
+    margin: 0 auto; /* center the group inside the header */
+    gap: 0; /* spacing handled by space-around */
 }
 
 .nav-links a {
@@ -170,10 +184,12 @@ header {
 
 @media (max-width: 720px) {
 
+    :root { --header-offset: 88px; }
+
     .nav {
         flex-direction: column;
         align-items: stretch;
-        padding-inline: 1.1rem;
+        padding: 0.75rem 1.1rem;
     }
 
     .nav-left {
@@ -580,28 +596,172 @@ header {
 
 .moments-controls button {
     flex: 1;
-    padding: 0.55rem 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 140px;
+    padding: 0.5rem 0.95rem;
     border-radius: 999px;
-    border: 1px solid rgba(168, 85, 247, 0.6);
-    background: rgba(15, 23, 42, 0.9);
-    color: #f9f5ff;
-    font-size: 0.8rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    border: 1px solid rgba(255,255,255,0.06);
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(34,24,53,0.10));
+    color: #f3eef8;
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.06em;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.02);
+    transition: transform .18s cubic-bezier(.2,.9,.2,1), box-shadow .18s, opacity .18s;
+    position: relative;
+    overflow: hidden;
     cursor: pointer;
-    transition: background 0.2s ease, transform 0.15s ease, border-color 0.2s ease, opacity 0.2s ease;
+    z-index: 0; /* allow liquid layer behind text */
+}
+
+/* liquid fill base layer */
+.moments-controls button::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(160% 220% at 0% 0%, rgba(255,255,255,0.22) 0%, rgba(219,180,255,0.22) 20%, transparent 45%),
+        radial-gradient(200% 260% at 100% 100%, rgba(120,60,160,0.95) 0%, rgba(65,27,99,0.98) 45%, rgba(24,12,40,1) 100%);
+    transform: translateX(-110%);
+    transition: transform 1.4s cubic-bezier(.19,1,.22,1); /* even slower, smoother fill */
+    pointer-events: none;
+    z-index: -1; /* ensure liquid sits fully behind text */
+    opacity: 0.75; /* soften so text stays very readable */
+}
+
+/* keep button contents above the liquid layer */
+.moments-controls button > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* default: fill from left → right on hover */
+.moments-controls button:hover::before:not(:disabled) {
+    transform: translateX(0);
+}
+
+/* gallery-specific direction: next fills left→right, prev fills right→left */
+.moments-controls #gallery-next::before {
+    transform: translateX(-110%);
+}
+
+.moments-controls #gallery-prev::before {
+    transform: translateX(110%);
+}
+
+.moments-controls #gallery-next:hover::before {
+    transform: translateX(0);
+}
+
+.moments-controls #gallery-prev:hover::before {
+    transform: translateX(0);
 }
 
 .moments-controls button:hover:not(:disabled) {
-    background: rgba(168, 85, 247, 0.2);
-    border-color: rgba(168, 85, 247, 0.9);
-    transform: translateY(-1px);
-}
+    transform: translateY(-3px);
+    box-shadow: 0 14px 32px rgba(0,0,0,0.55);
+    opacity: 1;
+    /* softer, darker purple so it isn't too bright */
+    background: linear-gradient(90deg, rgba(120,60,160,0.14), rgba(112,78,160,0.06));
+    border-color: rgba(120,60,160,0.35);
+    color: #ffffff;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.18);
+} 
 
 .moments-controls button:disabled {
     opacity: 0.35;
     cursor: default;
     transform: none;
+}
+
+.moments-controls .btn-arrow {
+    display: inline-block;
+    margin-left: .6rem;
+    transform-origin: center;
+    will-change: transform;
+}
+
+@keyframes arrow-bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+@keyframes arrow-breathe { 0%,100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+
+.moments-controls button .btn-arrow { animation: none; transition: transform .18s ease; }
+.moments-controls button:hover .btn-arrow, .moments-controls button:focus .btn-arrow { animation: arrow-swing 0.9s ease-in-out infinite; transform-origin: center; }
+
+/* for gallery controls, make the arrow gently push with the liquid instead of swinging */
+.moments-controls #gallery-next:hover .btn-arrow,
+.moments-controls #gallery-next:focus-visible .btn-arrow {
+    animation: none;
+    transform: translateX(3px);
+}
+
+.moments-controls #gallery-prev:hover .btn-arrow,
+.moments-controls #gallery-prev:focus-visible .btn-arrow {
+    animation: none;
+    transform: translateX(-3px);
+}
+
+/* ---------- page loader (full-screen) ---------- */
+#site-loader {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, rgba(7,5,11,0.98), rgba(12,6,28,0.7));
+  z-index: 9999;
+  color: #efe9fb;
+  transition: opacity .36s ease, visibility .36s ease;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+}
+#site-loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+.site-loader-inner { text-align: center; transform: translateY(-6px); }
+.loader-text { font-size: .95rem; color: rgba(255,255,255,0.86); }
+
+/* spinner SVG — track + rotating arc + fill progress */
+.loader-spinner { width: 48px; height: 48px; display: block; margin: 0 auto .6rem; }
+.loader-spinner .loader-track { stroke: rgba(255,255,255,0.06); stroke-width: 3; fill: none; }
+.loader-spinner .loader-arc { stroke: rgba(255,255,255,0.92); stroke-width: 3; fill: none; stroke-dasharray: 80 126; transform-origin: center; transform: rotate(-90deg); animation: spin 1s linear infinite; stroke-linecap: round; }
+.loader-spinner .loader-fill { stroke: var(--accent); stroke-width: 3; fill: none; stroke-dasharray: 126; stroke-dashoffset: 126; transform-origin: center; transform: rotate(-90deg); transition: stroke-dashoffset .48s cubic-bezier(.2,.9,.2,1), opacity .28s ease; opacity: 0; stroke-linecap: round; }
+
+/* when finishing, fade the arc and reveal the filled circle */
+.site-loader.finishing .loader-arc { opacity: 0.12; animation-play-state: paused; }
+.site-loader.finishing .loader-fill { stroke-dashoffset: 0; opacity: 1; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .loader-spinner, .img-loader, .moments-controls button .btn-arrow { animation: none !important; }
+  .img-wrap img { transition: none !important; }
+  .moments-controls button { transition: none; transform: none; }
+  /* avoid the fill transition for reduced-motion users */
+    .site-loader.finishing .loader-fill { transition: none !important; }
+    .moments-controls button::before { transition: none !important; transform: none !important; }
+}
+
+/* ---------- per-image skeleton + spinner ---------- */
+.img-wrap { position: relative; display: inline-block; overflow: hidden; border-radius: 12px; background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02)); }
+.img-wrap img { display: block; width: 100%; height: auto; transition: filter .45s cubic-bezier(.2,.9,.2,1), transform .45s ease, opacity .45s; backface-visibility: hidden; }
+.img-wrap.loading img { filter: blur(8px) saturate(.86); transform: scale(1.02); opacity: .98; }
+.img-wrap.loaded img { filter: none; transform: none; opacity: 1; }
+
+/* small centered spinner inside image wrapper */
+.img-loader { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 34px; height: 34px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.06); border-top-color: rgba(255,255,255,0.78); box-shadow: 0 8px 26px rgba(0,0,0,0.5); opacity: 1; transition: opacity .36s ease, transform .36s ease; pointer-events: none; }
+.img-wrap.loaded .img-loader { opacity: 0; transform: translate(-50%,-50%) scale(.96); pointer-events: none; }
+
+/* error appearance for failed images */
+.img-wrap.error { background: linear-gradient(180deg, rgba(40,12,18,0.55), rgba(20,10,30,0.55)); }
+.img-wrap.error img { opacity: .45; filter: grayscale(.6) blur(1px); }
+
+/* respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .loader-spinner, .img-loader, .moments-controls button .btn-arrow { animation: none !important; }
+  .img-wrap img { transition: none !important; }
+  .moments-controls button { transition: none; transform: none; }
 }
 
 /* TIMELINE ------------------------------------------------------ */
@@ -781,35 +941,120 @@ header {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    max-width: 90vw;
+    max-width: min(560px, 86vw); /* smaller modal so images read as smaller */
     max-height: 85vh;
     animation: lightboxSlideIn 0.4s ease-out;
 }
 
 .lightbox-media {
+    position: relative; /* allow close button anchored to media */
     width: 100%;
     height: auto;
-    max-height: 70vh;
+    max-height: 85vh; /* increased so media reads larger while still fitting below controls */
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 8px;
-    overflow: hidden;
+    overflow: hidden; /* contain media inside frame so caption stays below */
     background: #000;
+    padding: 1rem; /* breathing room so media appears smaller */
+    touch-action: pan-y; /* vertical scroll allowed; horizontal swipes handled in JS */
+    cursor: grab;
+    user-select: none;
+    -webkit-user-drag: none;
 }
+
+.lightbox-media.dragging { cursor: grabbing; }
 
 .lightbox-media img,
 .lightbox-media video {
     max-width: 100%;
-    max-height: 70vh;
+    max-height: 100%; /* fit inside the .lightbox-media container */
     width: auto;
     height: auto;
     object-fit: contain;
+    transition: transform 260ms cubic-bezier(.2,.9,.2,1);
+    will-change: transform;
+    -webkit-user-drag: none;
+    user-select: none;
 }
 
-.lightbox-media video {
+/* controls below the image: arrows sit outside the picture frame and flank the caption/counter */
+.lightbox-controls-below {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
     width: 100%;
+    margin-top: 0.6rem;
+    z-index: 1003; /* ensure controls + text sit above media shadows */
 }
+
+.lightbox-controls-below .lightbox-prev,
+.lightbox-controls-below .lightbox-next {
+    position: relative; /* override the absolute overlay rules */
+    top: auto;
+    transform: none;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: white;
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    font-size: 1.25rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 22px rgba(0,0,0,0.45);
+}
+
+.lightbox-controls-below .lightbox-prev[disabled],
+.lightbox-controls-below .lightbox-next[disabled] {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+.lightbox-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    flex: 1;
+    text-align: center;
+}
+
+.lightbox-meta .lightbox-caption { color: var(--text-muted); font-size: 0.95rem; }
+.lightbox-meta .lightbox-counter { color: var(--text-muted); font-size: 0.85rem; }
+
+/* place the close button at the top-right of the picture frame (just outside it) */
+.lightbox-media .lightbox-close {
+    position: absolute;
+    /* align the X to the exact spot you showed — slightly outside the top-right corner */
+    top: -22px;
+    right: -22px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: #fff;
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    font-size: 1.05rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+    z-index: 1002;
+    cursor: pointer;
+    transition: transform .12s ease, background .15s ease, color .15s ease;
+}
+
+.lightbox-media .lightbox-close:hover {
+    transform: scale(1.05);
+    background: rgba(255,255,255,0.08);
+}
+ 
+
+/* video sizing handled above (max-width / max-height: 100%) */
 
 .lightbox-close {
     position: absolute;
@@ -868,21 +1113,22 @@ header {
 }
 
 .lightbox-caption {
-    color: var(--text-muted);
-    font-size: 0.9rem;
-    margin-top: 1rem;
+    color: var(--text-main); /* make caption bright and readable */
+    font-size: 0.95rem;
+    margin-top: 0.25rem; /* bring it visually closer to the image */
     text-align: center;
-    max-width: 500px;
+    max-width: 520px;
+    font-weight: 600;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.45);
     animation: fadeInUp 0.5s ease-out;
 }
 
 .lightbox-counter {
     color: var(--text-muted);
-    font-size: 0.8rem;
-    margin-top: 0.5rem;
+    font-size: 0.82rem;
+    margin-top: 0.15rem;
     animation: fadeInUp 0.6s ease-out;
 }
-
 /* MOBILE LIGHTBOX ADJUSTMENTS */
 @media (max-width: 768px) {
     .lightbox-modal {
@@ -896,7 +1142,14 @@ header {
 
     .lightbox-media img,
     .lightbox-media video {
-        max-height: 75vh;
+        max-height: 68vh; /* increased on mobile so media fills more of the viewport */
+    }
+
+    /* hide prev/next arrows visually on mobile (gestures primary).
+       Buttons remain in the DOM; keyboard navigation and ARIA remain available. */
+    .lightbox-controls-below .lightbox-prev,
+    .lightbox-controls-below .lightbox-next {
+        display: none;
     }
 
     .lightbox-prev,
@@ -905,10 +1158,11 @@ header {
         padding: 0.4rem 0.8rem;
     }
 
-    .lightbox-close {
-        top: 0.5rem;
-        right: 0.5rem;
-        font-size: 1.5rem;
+    /* mobile: keep close inside media but slightly inset */
+    .lightbox-media .lightbox-close {
+        top: 8px;
+        right: 8px;
+        font-size: 1.25rem;
     }
 
     .pill {

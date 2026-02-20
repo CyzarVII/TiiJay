@@ -97,7 +97,7 @@
             if (item.type === "video") {
                 div.classList.add("gallery-video");
                 // Use thumbnail image for video items
-                const thumbnailSrc = item.src.replace("videos/", "images/").replace(".mp4", "-thumb.svg");
+                const thumbnailSrc = item.src.replace("videos/", "images/").replace(".mp4", "-thumb.jpg");
                 div.innerHTML = `
                     <img src="${thumbnailSrc}" alt="${item.alt}" style="width: 100%; height: 100%; object-fit: cover;">
                     <span class="video-icon">▶</span>

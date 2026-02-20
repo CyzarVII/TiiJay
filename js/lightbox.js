@@ -16,25 +16,26 @@
     modal.className = 'lightbox-modal';
     modal.innerHTML = `
         <div class="lightbox-content">
-            <!-- Close button (Esc key also works) -->
-            <button class="lightbox-close" aria-label="Close" title="Close (or press Esc)">✕</button>
-            <!-- Previous button (← arrow key also works) -->
-            <button class="lightbox-prev" aria-label="Previous" title="Previous (or press ←)">‹</button>
-            <!-- This is where the photo or video goes -->
+            <!-- media -->
             <div class="lightbox-media"></div>
-            <!-- Next button (→ arrow key also works) -->
-            <button class="lightbox-next" aria-label="Next" title="Next (or press →)">›</button>
-            <!-- Caption describing the current item -->
-            <div class="lightbox-caption"></div>
-            <!-- Counter showing what item we're viewing (e.g., "2 / 10") -->
-            <div class="lightbox-counter"></div>
+
+            <!-- controls below: arrows sit outside the picture frame and flank the text -->
+            <div class="lightbox-controls-below">
+                <button class="lightbox-prev" aria-label="Previous" title="Previous (or press ←)">‹</button>
+
+                <div class="lightbox-meta">
+                    <div class="lightbox-caption"></div>
+                    <div class="lightbox-counter"></div>
+                </div>
+
+                <button class="lightbox-next" aria-label="Next" title="Next (or press →)">›</button>
+            </div>
         </div>
     `;
     // Add the modal to the page (hidden until opened)
     document.body.appendChild(modal);
 
     // Get references to all the buttons and containers we'll use
-    const closeBtn = modal.querySelector('.lightbox-close');
     const prevBtn = modal.querySelector('.lightbox-prev');
     const nextBtn = modal.querySelector('.lightbox-next');
     const mediaContainer = modal.querySelector('.lightbox-media'); // Where photos/videos go
@@ -45,6 +46,15 @@
     let currentIndex = 0;
     // Store the list of all items to display
     let items = [];
+
+    // Swipe / drag state (supports mobile swipe + desktop hold-and-drag)
+    const SWIPE_THRESHOLD = 80; // pixels required to trigger navigation
+    let pointerId = null;
+    let startX = 0;
+    let startY = 0;
+    let isPointerDown = false;
+    let isDragging = false;
+    let currentMediaEl = null;
 
     function closeModal() {
         // Stop any playing videos
@@ -79,10 +89,19 @@
             const video = document.createElement('video');
             video.controls = true; // Show play/pause controls
             video.autoplay = true; // Automatically start playing
-            video.style.width = '100%';
+            // sizing handled by CSS/container so media always scale to fit the lightbox
+            video.style.width = 'auto';
             video.style.height = 'auto';
-            video.style.maxHeight = '70vh'; // Don't go taller than 70% of screen
-            
+            video.style.maxWidth = '100%';
+            video.style.maxHeight = '100%';
+            video.draggable = false;
+            video.style.transform = '';
+            video.style.transition = '';
+
+            // Add poster image (thumbnail shown before video plays)
+            const posterSrc = item.src.replace("videos/", "images/").replace(".mp4", "-thumb.jpg");
+            video.poster = posterSrc;
+
             // Create the source element (required for reliable video playback)
             const source = document.createElement('source');
             source.src = item.src; // Path to the video file
@@ -104,6 +123,9 @@
             img.alt = item.alt; // Description of the image
             img.style.maxWidth = '100%';
             img.style.maxHeight = '100%';
+            img.draggable = false;
+            img.style.transform = ''; // clear any previous drag transform
+            img.style.transition = '';
             mediaContainer.appendChild(img);
         }
 
@@ -119,8 +141,7 @@
     }
 
     // BUTTON CLICK HANDLERS
-    // Close button
-    closeBtn.addEventListener('click', closeModal);
+
     
     // Previous button - show the item before this one
     prevBtn.addEventListener('click', () => {
@@ -165,6 +186,89 @@
             showItem();
         }
     });
+
+    // --- SWIPE / DRAG (mobile swipe + desktop hold-and-drag) ---
+    function resetMediaTransform() {
+        const el = mediaContainer.querySelector('img, video');
+        if (!el) return;
+        el.style.transition = 'transform 260ms cubic-bezier(.2,.9,.2,1)';
+        el.style.transform = '';
+        setTimeout(() => { el.style.transition = ''; }, 300);
+    }
+
+    function onPointerDown(e) {
+        if (!modal.classList.contains('active')) return;
+        // only primary button
+        if (e.button && e.button !== 0) return;
+        // avoid interfering with desktop clicks on native video controls
+        if (e.target && e.target.tagName === 'VIDEO' && e.pointerType === 'mouse') return;
+
+        pointerId = e.pointerId;
+        isPointerDown = true;
+        startX = e.clientX;
+        startY = e.clientY;
+        currentMediaEl = mediaContainer.querySelector('img, video');
+        try { mediaContainer.setPointerCapture(pointerId); } catch (err) { /* ignore if not supported */ }
+        mediaContainer.classList.add('dragging');
+        document.body.style.userSelect = 'none';
+    }
+
+    function onPointerMove(e) {
+        if (!isPointerDown || e.pointerId !== pointerId) return;
+        const dx = e.clientX - startX;
+        const dy = e.clientY - startY;
+        // only begin 'drag' when horizontal movement predominates
+        if (!isDragging) {
+            if (Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy)) {
+                isDragging = true;
+            } else return;
+        }
+        e.preventDefault();
+
+        const clamp = Math.sign(dx) * Math.min(Math.abs(dx), window.innerWidth * 0.8);
+        const scale = 1 - Math.min(0.06, Math.abs(dx) / window.innerWidth * 0.06);
+        if (currentMediaEl) {
+            currentMediaEl.style.transition = 'none';
+            currentMediaEl.style.transform = `translateX(${clamp}px) scale(${scale})`;
+        }
+    }
+
+    function onPointerUp(e) {
+        if (!isPointerDown || (e && e.pointerId && e.pointerId !== pointerId)) return;
+        try { mediaContainer.releasePointerCapture(pointerId); } catch (err) { /* ignore */ }
+        const endX = (e && e.clientX) || startX;
+        const endY = (e && e.clientY) || startY;
+        const dx = endX - startX;
+        const dy = endY - startY;
+
+        isPointerDown = false;
+        mediaContainer.classList.remove('dragging');
+        document.body.style.userSelect = '';
+
+        if (isDragging && Math.abs(dx) > SWIPE_THRESHOLD && Math.abs(dx) > Math.abs(dy)) {
+            if (dx < 0 && currentIndex < items.length - 1) {
+                currentIndex++;
+                showItem();
+            } else if (dx > 0 && currentIndex > 0) {
+                currentIndex--;
+                showItem();
+            } else {
+                resetMediaTransform();
+            }
+        } else {
+            resetMediaTransform();
+        }
+
+        isDragging = false;
+        pointerId = null;
+        currentMediaEl = null;
+    }
+
+    // attach pointer listeners to the media container (covers touch + mouse via Pointer Events)
+    mediaContainer.addEventListener('pointerdown', onPointerDown);
+    mediaContainer.addEventListener('pointermove', onPointerMove);
+    mediaContainer.addEventListener('pointerup', onPointerUp);
+    mediaContainer.addEventListener('pointercancel', onPointerUp);
 
     // Make the openModal function available to other scripts (like gallery.js)
     // This is how gallery.js can trigger the lightbox

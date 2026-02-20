@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Basic page setup -->
+    <meta charset="UTF-8" />
+    <title>A Poem About Us - Jamal & Tiana</title>
+
+    <!-- Mobile responsiveness - makes the page work on phones and tablets -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Phone top-bar theming (dark background) -->
+    <meta name="theme-color" content="#05030a">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- Favicon and App Icons -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="shortcut icon" href="favicon.ico">
+
+    <!-- Google Fonts - beautiful typography for the page -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Great+Vibes&display=swap"
+        rel="stylesheet">
+
+    <!-- Our custom CSS file - controls all the colors, layouts, and animations -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- full-page loader -->
+    <div id="site-loader" class="site-loader" role="status" aria-live="polite" aria-label="Loading">
+        <div class="site-loader-inner">
+            <svg class="loader-spinner" viewBox="0 0 50 50" aria-hidden="true" role="img" aria-label="Loading">
+                <circle class="loader-track" cx="25" cy="25" r="20" stroke-linecap="round"></circle>
+                <circle class="loader-arc" cx="25" cy="25" r="20" stroke-linecap="round"></circle>
+                <circle class="loader-fill" cx="25" cy="25" r="20" stroke-linecap="round" stroke-dasharray="126" stroke-dashoffset="126"></circle>
+            </svg>
+            <div class="loader-text">Loading…</div>
+        </div>
+    </div>
+
+    <!-- NAVIGATION HEADER -->
+    <header>
+        <nav class="nav">
+            <div class="nav-left">
+                <!-- The title links back to the main page -->
+
+                <!-- Hamburger menu button (shows on mobile phones) -->
+                <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+
+            <!-- Navigation links -->
+            <div class="nav-links">
+                <a href="index.html#us">Us</a>
+                <a href="birthday.html">Birthday</a>
+                <a href="index.html#story">Story</a>
+                <a href="index.html#moments">Moments</a>
+                <a href="index.html#gallery">Memories</a>
+                <a href="#poem">Poem</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="shell">
+        <main>
+            <!-- POEM SECTION -->
+            <!-- A special poem about the relationship -->
+            <section id="poem">
+                <div class="section-label">For you</div>
+                <h2 class="section-title">A poem about us</h2>
+                <p class="section-sub">
+                    Black and purple, quiet and soft a small poem from my heart to yours.
+                </p>
+
+                <div class="poem-card">
+                    <div class="poem-title">"In the quiet, it's you"</div>
+                    <div class="poem-body">
+                        In a world that moves too quickly,
+                        you walk in at your own pace,
+                        and somehow, Tiana,
+                        my heart learns how to breathe slower
+                        whenever you are near.
+
+                        You are the calm between my thoughts,
+                        the warmth inside my chest,
+                        the soft "it's okay" I feel
+                        even when no one says the words out loud.
+
+                        With you,
+                        ordinary moments become stories,
+                        car rides feel like scenes,
+                        and simple days feel like reasons
+                        to be grateful I woke up again.
+
+                        If love is a language,
+                        yours is spoken in gentle looks,
+                        in shared jokes,
+                        in the way you listen
+                        and love without needing a stage.
+
+                        And if I get to spend
+                        my tomorrows learning you,
+                        your moods, your dreams, your light,
+                        then every day from here on out
+                        will already be better
+                        than anything I imagined.
+
+                        Because in the quiet,
+                        when the noise is gone
+                        and the world feels small,
+                        it's still you, Tiana,
+                        it's always you.
+                    </div>
+                    <div class="poem-sign">
+                        — Jamal
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            Made in black &amp; purple, for Tiana, from Jamal.
+            <span style="display:block; margin-top:0.3rem;">No audience. No likes. Just us. 💜</span>
+        </footer>
+    </div>
+
+    <!-- nav.js: Handles the hamburger menu and smooth scrolling -->
+    <script src="js/nav.js"></script>
+    <!-- site/image loader (same behaviour as index) -->
+    <script>
+        (function(){
+            const siteLoader = document.getElementById('site-loader');
+            const MIN_SHOW = 420; const startedAt = Date.now();
+            function hideSiteLoaderSoon(){ const elapsed = Date.now() - startedAt; const wait = Math.max(0, MIN_SHOW - elapsed); setTimeout(()=>{ if(!siteLoader) return; siteLoader.classList.add('finishing'); const fill = siteLoader.querySelector('.loader-fill'); if(fill){ const done = ()=>{ siteLoader.classList.add('hidden'); setTimeout(()=> siteLoader.remove?.(),420); fill.removeEventListener('transitionend', done); }; fill.addEventListener('transitionend', done); setTimeout(done,700); } else { siteLoader.classList.add('hidden'); setTimeout(()=> siteLoader.remove?.(),420); } }, wait); }
+            window.addEventListener('load', hideSiteLoaderSoon, { once: true }); setTimeout(()=>{ if(document.getElementById('site-loader')) hideSiteLoaderSoon(); },7000);
+            const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            function wrapImage(img){ if(!img||img.closest('.img-wrap')) return img.closest('.img-wrap')||null; const wrap=document.createElement('div'); wrap.className='img-wrap'; img.parentNode.insertBefore(wrap,img); wrap.appendChild(img); const loader=document.createElement('div'); loader.className='img-loader'; loader.setAttribute('aria-hidden','true'); wrap.appendChild(loader); return wrap; }
+            function markLoaded(img){ const wrap = img.closest('.img-wrap'); img.classList.remove('loading'); img.classList.add('loaded'); if(wrap){ wrap.classList.remove('loading'); wrap.classList.add('loaded'); }}
+            function markError(img){ const wrap = img.closest('.img-wrap'); if(wrap) wrap.classList.add('error'); img.classList.remove('loading'); }
+            function processImage(img){ if(!img||img.dataset.__loaderHandled) return; if(img.closest('.gallery-item')||img.closest('.gallery-grid')){ img.dataset.__loaderHandled='1'; return; } img.dataset.__loaderHandled='1'; const wrap = img.closest('.img-wrap')||wrapImage(img); wrap?.classList.add('loading'); img.classList.add('loading'); if(img.complete && img.naturalWidth){ setTimeout(()=>markLoaded(img),80); return; } img.addEventListener('load', ()=>markLoaded(img), { once: true }); img.addEventListener('error', ()=>markError(img), { once: true }); }
+            document.querySelectorAll('img').forEach(processImage);
+            const mo = new MutationObserver((mutations)=>{ for(const m of mutations){ for(const node of m.addedNodes){ if(node.nodeType!==1) continue; if(node.tagName==='IMG') processImage(node); else node.querySelectorAll && node.querySelectorAll('img').forEach(processImage); } }}); mo.observe(document.body,{ childList:true, subtree:true });
+            if(prefersReduced) document.documentElement.classList.add('reduced-motion');
+        })();
+    </script>
+</body>
+
+</html>
